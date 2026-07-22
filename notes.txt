@@ -1,0 +1,11 @@
+Decoration 
+-decoration_id(PK)
+-type(enagagement, bla bla)
+-prices
+-service_id(FK)
+
+baja
+-baja_id(PK)
+-prices
+-service_id(FK)
+-team_num
