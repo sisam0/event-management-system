@@ -23,6 +23,8 @@
     justify-content: center;
     position: relative;
 }
+
+/*navigation bar*/
 .nav-bar {
     top: 5px;
     text-align: right;
@@ -47,6 +49,8 @@
     color: rgb(248, 88, 1);
     border-radius: 5px;
 }
+
+/*logo contents*/
 .name-contents{
     position: absolute;
     background-color: rgb(255, 219, 151, 0.8);
@@ -77,25 +81,33 @@
     border: 1px orange solid;
     padding: 15px 40px;
 }
+
+/*about us section*/
 .about{
     padding: 15px;
+    height: 400px;
+    border: 1px solid black;
+    margin: 20px;
 }
 .abt-text{
     width: 700px;
-    line-height: 1.5rem;
+    line-height: 2rem;
 }
+
+/*gallery section*/
 .gallery{
     display: flex;
     gap: 15px;
     overflow: hidden;
-    width: 100vw;
     margin-left: 20px;
+    padding: 10px;
 }
 .pics{
     height: 450px;
     width: 350px;
     background-color: grey;
     flex: 0 0 350px;
+    margin-right: 10px;
 }
 .gallery:hover{
 

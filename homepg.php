@@ -9,8 +9,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
 </head>
 
@@ -29,8 +27,8 @@
                 <button class="main-btn">Contact us!</button>
             </div>
         </div>
-
-        <div class="about" id="about">
+        <span id="about"></span>
+        <div class="about">
             <h1>About us</h1>
             <p class="abt-text"> Welcome to <span style="font-family: var(--main-font);">laliguras</span>, where authentic flavors,
                 warm hospitality, and unforgettable experiences come together.
@@ -47,15 +45,16 @@
                 forward to welcoming you. </p>
         </div>
 
-        <h1 id="gallery">Gallery</h1>
-        <div class="gallery">
-
-            <div class="pics"></div>
-            <div class="pics"></div>
-            <div class="pics"></div>
-            <div class="pics"></div>
-            <div class="pics"></div>
-            <div class="pics"></div>
+        <div id="gallery">
+            <h1 style="margin-left: 20px;">Gallery</h1>
+            <div class="gallery">
+                <div class="pics"></div>
+                <div class="pics"></div>
+                <div class="pics"></div>
+                <div class="pics"></div>
+                <div class="pics"></div>
+                <div class="pics"></div>
+            </div>
         </div>
 
         <div class="footer" id="footer"></div>
