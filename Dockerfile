@@ -1,11 +1,11 @@
 #Use official PHP with Apache
-FROM php:8.2-Apache
+FROM php:8.2-apache
 
 #Install PHP extensions(for MySQL connection)
 RUN docker-php-ext-install mysqli pdo pdo_mysql
 
 #Enable Apache mod_Rewrite
-RUN a2enmod mod_Rewrite
+RUN a2enmod rewrite
 
 #Copy custio Apache config
 COPY apache/000-default.conf /etc/apache2/sites-available/00-default.conf

@@ -7,6 +7,8 @@ const overlay = document.getElementById("overlay");
 // Hide on page load
 overlay.classList.add("hidden");
 
+let calendar;
+
 function showMainSection(id) {
     document.querySelectorAll(".main-section").forEach(section => {
         section.classList.remove("active");
@@ -39,6 +41,9 @@ function showService(card) {
     document.getElementById("cardInfo").style.display = "flex";
     document.getElementById("cardInfo").style.flexDirection = "column";
     document.body.style.overflow = "hidden";
+
+    const calendarEl = document.querySelector('#calendar');
+    new Calendar(calendarEl);
 }
 
 function closeService() {    

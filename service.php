@@ -35,25 +35,25 @@
                     <div class="service-info">
                         <div id="hall" class="secondary-sec">
                             <div class="card" onclick="showService(this)">
-                                <img src="hall1.jpg" alt="" height="300px" width="440px">
+                                <img src="hall1.jpg" alt="" width="410px">
                                 <h3>Sagarmatha</h3>
                                 <p>Seat Capacity: 450</p>
                                 <p>Type: Indoor</p>
                             </div>
                             <div class="card" onclick="showService(this)">
-                                <img src="hall1.jpg" alt="" height="300px">
+                                <img src="hall1.jpg" alt="" width="410px">
                                 <h3>Sagarmatha</h3>
                                 <p>Seat Capacity: 450</p>
                                 <p>Type: Indoor</p>
                             </div>
                             <div class="card" onclick="showService(this)">
-                                <img src="hall1.jpg" alt="" height="300px">
+                                <img src="hall1.jpg" alt="" width="410px">
                                 <h3>Sagarmatha</h3>
                                 <p>Seat Capacity: 450</p>
                                 <p>Type: Indoor</p>
                             </div>
                             <div class="card" onclick="showService(this)">
-                                <img src="hall1.jpg" alt="" height="300px">
+                                <img src="hall1.jpg" alt="" width="410px">
                                 <h3>Sagarmatha</h3>
                                 <p>Seat Capacity: 450</p>
                                 <p>Type: Indoor</p>
@@ -62,28 +62,34 @@
 
                         <div id="overlay">
                             <div id="cardInfo">
-                                <span class="closeCard" onclick="closeService()">&times;</span>  
-                                <button class="bookBtn">Book hall!</button>                              
+                                <span class="closeCard" onclick="closeService()">&times;</span>
+                                <button class="bookBtn">Book hall!</button>
                                 <div>
                                     <h2 style="text-align: center;">Sagarmatha Hall</h2>
                                     <table>
-                                    <tr>
-                                        <td><i class="fa-solid fa-person"></i>Seat Capacity</td>
-                                        <td>450</td>
-                                    </tr>
-                                    <tr>
-                                        <td><i class="fa-solid fa-building"></i>Type</td>
-                                        <td>Indoor</td>
-                                    </tr>
+                                        <tr>
+                                            <td><i class="fa-solid fa-person"></i>Seat Capacity</td>
+                                            <td>450</td>
+                                        </tr>
+                                        <tr>
+                                            <td><i class="fa-solid fa-building"></i>Type</td>
+                                            <td>Indoor</td>
+                                        </tr>
                                     </table>
+                                    <br>
                                 </div>
+
                                 <div>
                                     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque tempora labore distinctio dicta laborum. Repudiandae, dignissimos magni fugit reiciendis tenetur rem perferendis praesentium? Minima natus cupiditate cum debitis similique tempore?</p>
                                 </div>
-                                <div>                                    
+
+                                <div>
                                     <img id="imageCard" height="300px" width="400">
                                     <img id="imageCard" height="300px" width="400">
-                                </div>    
+                                </div>
+
+                                <div id="calendar"></div>
+
                             </div>
                         </div>
 
@@ -119,12 +125,12 @@
                 <div id="package" class="main-section">
                     <div class="service-info">
                         <div class="card">
-                            <img src="venue.jpg" alt="" height="300px" width="440px">
+                            <img src="venue.jpg" alt="" width="400px">
                             <h3>Golden Package</h3>
                             <p>Includes Sagarmatha hall and menu for 600 guests!</p>
                         </div>
                         <div class="card">
-                            <img src="venue.jpg" alt="" height="300px" width="440px">
+                            <img src="venue.jpg" alt="" width="400px">
                             <h3>Golden Package</h3>
                             <p>Includes Sagarmatha hall and menu for 600 guests!</p>
                         </div>
@@ -136,6 +142,7 @@
     </div>
 
     <script src="service.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.19/index.global.min.js"></script>
 </body>
 
 </html>
