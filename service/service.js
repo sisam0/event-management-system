@@ -7,13 +7,11 @@ const overlay = document.getElementById("overlay");
 // Hide on page load
 overlay.classList.add("hidden");
 
-let calendar;
-
 function showMainSection(id) {
     document.querySelectorAll(".main-section").forEach(section => {
         section.classList.remove("active");
     });
-document.getElementById(id).classList.add("active");
+document.getElementById(id).style.display = "flex";
 }
 
 function showSection(id) {

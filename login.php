@@ -11,10 +11,27 @@
         }
         * {
             text-align: center;
+            background-color: goldenrod;
+        }
+
+        .main-body{
+            border: 1px solid black;
+            width: fit-content;
+            padding: 30px;
+            height: fit-content;
         }
 
         .register {
             display: none;
+        }
+
+        .parent{
+            height: 550px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 1270px;
+
         }
 
         input {
@@ -22,6 +39,13 @@
             width: 250px;
             padding: 5px 10px;
             text-align: left;
+            border: none;
+            background-color: beige;
+            border-radius: 10px;
+            padding: 10px;
+            width: 350px;
+            text-align: left;
+
         }
     </style>
 </head>
@@ -105,7 +129,7 @@
     ?>
 
     <div class="parent">
-        <div class="login" id="login">
+        <div class="login main-body" id="login">
             <h1>Welcome Back!</h1>
             <h3>If you don't have an account you can <a href="#" id="showRegister">Register account.</a></h3>
             <div class="hasForm">
@@ -113,12 +137,12 @@
                     <input type="email" placeholder="Email" name="email"><br>
                     <input type="text" placeholder="Password" name="password"><br>
                     <span id="message"><?php echo htmlspecialchars($loginMsg); ?></span>
-                    <input type="submit" value="Log in" name="login">
+                    <input type="submit" value="Log in" name="login" style="text-align: center;">
                 </form>
             </div>
         </div>
 
-        <div class="register" id="register">
+        <div class="register main-body" id="register">
             <h1>Welcome!</h1>
             <h3>Start by building your account. To book your events and view real time updates. If you have an account then you can <a href="#" id="showLogin">Log in</a>
             </h3>

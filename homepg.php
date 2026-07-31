@@ -18,7 +18,7 @@
             <div class="nav-bar">
                 <a class="nav-contents" href="#about">About</a>
                 <a class="nav-contents" href="#gallery">Gallery</a>
-                <a class="nav-contents" href="service.php">Services</a>
+                <a class="nav-contents" href="service\service.php">Services</a>
                 <a class="nav-contents" href="#footer">Contact</a>
             </div>
             <div class="name-contents">
