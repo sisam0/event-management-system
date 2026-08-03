@@ -15,9 +15,6 @@
     include "connect.php";
     session_start();
     $msg = "";
-
-    $token = rand();
-    $_SESSION['form_token'] = $token;
     ?>
 
     <div class="parent">
@@ -44,21 +41,13 @@
 
         <div class="contents">
             <div class="service-names">
-                <span class="name">Hall</span>
-                <span class="name">Catering</span>
+                <span class="name" id="hall">Hall</span>
+                <span class="name" id="catering">Catering</span>
             </div>
 
             <div id="render">
                 <div class="hall">
-                    <div id="addHall" class="card">
-                        <div class="addingHall">
-                            <i class="fa-solid fa-plus"></i> Add new hall photos
-
-                        </div>
-                        <button class="btn" onclick="addHall(event)">Add new hall</button>
-                    </div>
-
-
+                    <!-- to display hall cards -->
                     <?php
                     $query = "SELECT DISTINCT h.*, 
                             (SELECT photo FROM photos WHERE hall_id = h.hall_id LIMIT 1) as photo 
@@ -100,110 +89,27 @@
                             <button class="btn">Edit Event</button>
                         </div>
                     </div>
-                </div> -->
+                    </div> -->
+                
+                    <!-- adding new hall card -->
+                    <div id="addHall" class="card">
+                        <div class="addingHall">
+                            <i class="fa-solid fa-plus"></i> Add new hall photos
+                        </div>
+                        <button class="btn" onclick="addHall(event)">Add new hall</button>
+                    </div>
+
+                </div>
+
+                <div class="catering">
 
                 </div>
             </div>
 
-            <div id="overlay" class="hidden">
-                <div id="cardInfo">
-                    <div class="cardTop">
-                        <h2>Add Hall</h2>
-                        <span id="closeCard">&times;</span>
-                    </div>
+            
+                
 
-                    <div class="cardBottom">
-                        <form action="" method="post" enctype="multipart/form-data">
-                            <input type="hidden" name="token" value="<?php echo $token; ?>">
-                            <table>
-                                <tr>
-                                    <td>Name:</td>
-                                    <td><input type="text" name="name"></td>
-                                </tr>
-                                <tr>
-                                    <td>Seat Capacity</td>
-                                    <td><input type="number" name="seat"></td>
-                                </tr>
-                                <tr>
-                                    <td>Seat Indoor</td>
-                                    <td><input type="radio" name="seat_type" value="indoor">Indoor <br><input type="radio" name="seat_type" value="outdoor">Outdoor <br><input type="radio" name="seat_type" value="both">Both</td>
-                                </tr>
-                                <tr>
-                                    <td>Description</td>
-                                    <td><textarea name="description" cols="50px" rows="5px"></textarea></td>
-                                </tr>
-                                <tr>
-                                    <td>Can bring outdoor food?</td>
-                                    <td><input type="radio" name="food" value="yes">Yes <br><input type="radio" name="food" value="no"> No</td>
-                                </tr>
-                                <tr>
-                                    <td>Number of private rooms</td>
-                                    <td><input type="number" name="pvt_room"></td>
-                                </tr>
-                                <tr>
-                                    <td>Is there DJ service?</td>
-                                    <td><input type="radio" name="dj" value="yes">Yes <br><input type="radio" name="dj" value="no">No</td>
-                                </tr>
-                                <tr>
-                                    <td>Add photos:</td>
-                                    <td><input type="file" name="photos[]" multiple accept="image/*"></td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2"><input type="submit" name="hallReg" value="Add hall!"></td>
-                                </tr>
-                            </table>
-                        </form>
-                    </div>
-
-                    <?php
-
-                    $_SESSION['formToken'] = rand();
-
-                    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                        // if hall register is clicked
-                        if (isset($_POST['hallReg'])) {
-
-                            //Check if token matches
-                            if ($_POST['token'] !== $_SESSION['form_token']) {
-                                die("Invalid form submission");
-                            }
-                            // Clear token after use
-                            unset($_SESSION['form_token']);
-                            
-                            $name = $_POST['name'];
-                            $seat = $_POST['seat'];
-                            $type = $_POST['seat_type'];
-                            $desc = $_POST['description'];
-                            $out_food = $_POST['food'];
-                            $room = $_POST['pvt_room'];
-                            $dj = $_POST['dj'];
-
-                            $stmt = $conn->prepare("INSERT INTO hall (hall_name, seat_capacity, space_type, without_f, dj, pvt_room, description) VALUES (?, ?, ?, ?, ?, ?, ?)");
-                            $stmt->bind_param("sisssis", $name, $seat, $type, $out_food, $dj, $room, $desc);
-                            if ($stmt->execute()) {
-                                $hall_id = $conn->insert_id;
-                                $folder = $folder = $_SERVER['DOCUMENT_ROOT'] . "/event-mgt/admin/ser-photos/"; //this is the absoulete path for reliability
-
-                                foreach ($_FILES['photos']['tmp_name'] as $key => $value) {
-                                    $filename = time() . "_" . $_FILES['photos']['name'][$key]; //creates a unique file name using original filenames
-                                    $target_file = $folder . $filename;
-                                    if (move_uploaded_file($_FILES['photos']['tmp_name'][$key], $target_file)) {
-                                        //to sent photos in photo table
-                                        $pic_stmt = $conn->prepare("insert into photos(photo, hall_id) values(?,?)");
-                                        $pic_stmt->bind_param("si", $target_file, $hall_id);
-                                        $pic_stmt->execute();
-                                        $pic_stmt->close();
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-                    ?>
-
-                </div>
-
-            </div>
+            
 
         </div>
     </div>

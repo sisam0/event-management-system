@@ -2,22 +2,22 @@ const overlay = document.getElementById("overlay");
 const closeCard = document.getElementById("closeCard");
 console.log("admin.js loaded!");
 
+const hall = document.getElementById("hall");
+const catering = document.getElementById("catering");
+
 window.addHall = function (event){
     event.preventDefault();
-    if (overlay) {
-        overlay.classList.remove("hidden");
-        overlay.style.display = "flex";
-        document.body.style.overflow = "hidden";
-        console.log("Overlay displayed!");
-    } else {
-        console.error("Overlay element not found!");
-    }
+    window.location.href = "http://localhost/event-mgt/admin/add-hall.php";
 }
 
-//to close add hall overlay
-closeCard.addEventListener("click", function(event) {
-    event.preventDefault();
-    overlay.classList.add("hidden");
-    document.body.style.overflow = "auto";
-    overlay.style.display = "none";
-});
+catering.addEventListener("click", showCatering);
+hall.addEventListener("click", showHall);
+
+function showCatering() {
+    
+
+}
+
+function showHall() {
+
+}

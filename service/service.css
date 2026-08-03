@@ -110,6 +110,14 @@
     border-radius: 10px;
 }
 
+/* js detail in each-service class i.e to make each button type brown bg */
+.each-service.active-btn{
+    background-color: brown;
+    color: aliceblue;
+    border: none;
+    border-radius: 10px;
+}
+
 /* main service detail */
 .service-info{
     display: flex;
@@ -136,18 +144,17 @@
 }
 
 /* display the card popup */
-#overlay {
+#bg-overlay {
     display: none;
     position: fixed;
     inset: 0;
     background: rgba(0, 0, 0, 0.6); 
     z-index: 999;
-    display: flex;
     justify-content: center;
     align-items: center;
 }
 /* Hide initially */
-#overlay.hidden {
+#bg-overlay.hidden {
     display: none;
 }
 
@@ -206,7 +213,7 @@ td{
 #package{
     padding: 10px;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-    display: none;
+    /* display: none; */
 }
 
 /*selecting one service from the existig services options*/

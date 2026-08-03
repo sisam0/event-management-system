@@ -6,32 +6,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Page</title>
     <style>
-        #error2{
+        #error2 {
             display: none;
         }
+
         * {
-            text-align: center;
-            background-color: goldenrod;
+            margin: 0;
         }
 
-        .main-body{
+        .parent {
+            height: 587px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 1280px;
+            background: url(bg-login.jpg);
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+
+        }
+
+        .main-body {
             border: 1px solid black;
             width: fit-content;
             padding: 30px;
             height: fit-content;
-        }
-
-        .register {
-            display: none;
-        }
-
-        .parent{
-            height: 550px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 1270px;
-
+            text-align: center;
+            color: beige;
+            /* line-height: 3rem; */
+            /* filter: blur(4px); */
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            
         }
 
         input {
@@ -45,14 +52,26 @@
             padding: 10px;
             width: 350px;
             text-align: left;
+        }
 
+        a{
+            color: beige;
+        }
+
+        span{
+            font-size: 15px;
+
+        }
+
+        .register {
+            display: none;
         }
     </style>
 </head>
 
 <body>
     <?php
-    include "connect.php";
+    include "connect2.php";
     $message = "";
     $loginMsg = "";
 
@@ -136,7 +155,7 @@
                 <form action="" method="post">
                     <input type="email" placeholder="Email" name="email"><br>
                     <input type="text" placeholder="Password" name="password"><br>
-                    <span id="message"><?php echo htmlspecialchars($loginMsg); ?></span>
+                    <span id="message"><?php echo htmlspecialchars($loginMsg); ?></span><br>
                     <input type="submit" value="Log in" name="login" style="text-align: center;">
                 </form>
             </div>
@@ -148,14 +167,14 @@
             </h3>
             <div class="regForm">
                 <form action="" method="post" enctype="multipart/form-data">
-                    <p id="error1"></p>
+                    <span id="error1"></span>
                     <label for="">Email:</label> <input type="email" placeholder="ram7872@gmail.com" name="email" id="email"><br>
                     <label for="">Password:</label> <input type="text" placeholder="'Your password" name="Mpassword" id="Mpassword"><br>
-                    <p id="error2"></p><br>
+                    <span id="error2"></span><br>
                     <label for="">Confirm Password:</label> <input type="text" placeholder="Confirm password" name="Cpassword" id="Cpassword"><br>
                     <label for="">First Name:</label><input type="text" placeholder="Ram" name="fname"><br>
                     <label for="">Last Name:</label><input type="text" placeholder="Lama" name="lname"><br>
-                    <p>This email will be visible to the service provider.</p>
+                    <span>This email will be visible to the service provider.</span><br>
                     <label for="">Email:</label><input type="email" placeholder="ram6567@gmail.com" name="Oemail" id="Oemail"><br>
                     <label for="">Photo:</label><input type="file" name="pic"><br>
                     <input type="submit" value="Create account" name="register">

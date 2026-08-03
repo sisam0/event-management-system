@@ -20,6 +20,7 @@
                 <a class="nav-contents" href="#gallery">Gallery</a>
                 <a class="nav-contents" href="service\service.php">Services</a>
                 <a class="nav-contents" href="#footer">Contact</a>
+                <a class="nav-contents" href="http://localhost/event-mgt/login.php">Login</a>
             </div>
             <div class="name-contents">
                 <img src="logo.png" alt="" height="85" style="opacity: 1;">
