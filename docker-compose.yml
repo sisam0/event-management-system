@@ -3,28 +3,30 @@ version: "3.8"
 services:
   web:
     build: .
-    container_name: apache_php_app
+    container_name: event-php #this is the name of image of php in event-mgt container
     ports:
       - "8081:80"
     volumes:
-      - ./php:/var/www/html
+      - ./src:/var/www/html #adjust as the directory name
+      - ./php.ini:/usr/local/etc/php/php.ini #added to change the upload limit for photos
     depends_on:
       - db
 
   db:
     image: mysql:8.0
-    container_name: mysql_db
+    container_name: event-db #this is the name of image of mysql in event-mgt container
     restart: always
     environment:
+      MYSQL_HOST: event-mgt
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: student_db
-      MYSQL_USER: student
-      MYSQL_PASSWORD: student123
+      MYSQL_DATABASE: event_db
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: event123
     ports:
-      - "3306:3306"
+      - "3307:3306"
     volumes:
       - db_data:/var/lib/mysql
-      - ./mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./mysql/schema.sql:/docker-entrypoint-initdb.d/schema.sql
 
 volumes:
   db_data:

@@ -1,0 +1,186 @@
+/* topmost bar */
+.nav-bar{
+    background-color: #FFFADA;
+    padding: 5px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+}
+
+.parent{
+    padding: 5px 10px 10px 10px;
+}
+
+.right{    
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
+
+.nav-anchor{
+    padding: 5px 25px;
+    margin-left: 15px;
+    border: 1px solid black;
+    height: fit-content;
+    border-radius: 10px;
+    text-align: center;
+}
+
+a{
+    color: black;
+    text-decoration: none;
+    margin-right: 10px;
+}
+
+.admin-pic{
+    border-radius: 50%;
+    border: 1px black solid;
+}
+
+/* bottom div */
+.contents{
+    padding: 10px;
+    border-radius: 10px;
+    /* border: 1px solid black; */
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+}
+
+.service-names{
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-evenly;
+    position: sticky;
+    top: 0;
+    background-color: white;
+    padding: 10px;
+}
+
+.name{
+    cursor: pointer;
+    padding: 10px 55px;
+    border: none;
+    /* border: 1px solid black; */
+    background: rgb(253, 253, 252);
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
+
+}
+
+.name.active-btn{
+    background: rgb(255, 255, 159);
+}
+
+#hall{
+    padding: 10px;
+    flex-wrap: wrap;
+}
+
+.addingHall{
+    height: 230px;
+    width: 350px;
+    background-color: gray;
+    color: rgb(232, 232, 188);
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 35px;
+}
+
+.btn{
+    padding: 10px 50px;
+    /* z-index: 15; */
+    border: none;
+    border-radius: 10px;
+    background-color: rgb(255, 255, 159);
+    cursor: pointer;
+}
+
+/* for each hall display */
+.card{
+    padding: 10px;
+    border: 1px solid rgb(130, 129, 129);
+    border-radius: 5px;
+    margin-left: 5px;
+    margin-bottom: 15px;
+    width: fit-content;
+    text-align: center;
+}
+.hall-contents{
+    display: flex;
+}
+
+/* for catering menu */
+#catering{
+    flex-direction: column;
+}
+.menu{
+    padding: 5px;
+}
+.bookBtn{
+    padding: 10px 25px;
+    background-color: brown;
+    color: white;
+    position: sticky;
+    top: 5px;
+    margin-bottom: 5px;
+    border: none;
+    z-index: 5;
+    border-radius: 10px;
+}
+.menu-text{
+    padding: 20px 20px 5px 20px;
+}
+
+/* for tables */
+th,
+td{
+    padding: 5px;
+    margin: 5px 10px 10px 0px;
+    
+}
+
+.food-cols{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.food-name{
+    margin-bottom: 5px;
+}
+
+.food-list{
+    margin-right: 20px;
+    margin-bottom: 30px;
+
+}
+
+.food-list table tr:nth-child(even){
+    background-color: beige;
+}
+
+.food-list table td{
+    text-align: center;
+    border-bottom: 1px solid rgb(244, 244, 119);
+    width: 250px;
+    /* border: 1px solid rgb(203, 201, 201); */
+}
+
+.food-list table td:first-child,
+.food-list table td:last-child{
+    width: 80px;
+}
+
+.food-list table td:nth-child(2){
+    width: 235px;
+}
+
+.service{
+    display: none;
+}
+
+.service.active{
+    display: flex;
+}
