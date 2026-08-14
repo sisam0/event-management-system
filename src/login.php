@@ -12,7 +12,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $hash_pass = password_hash($pass, PASSWORD_DEFAULT);
         $fname = $_POST['fname'];
         $lname = $_POST['lname'];
-        $open_email = $_POST['Oemail'];
         $folder = "photos/user/";
         $target_file = $folder . basename($_FILES["pic"]["name"]);
 
@@ -31,9 +30,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($checkemail->num_rows() > 0) {
             $message = "Email already exists.";
         } else {
-            $stmt = $conn->prepare("insert into user(email, password, fname, lname, open_email, pic)
-                            values (?,?,?,?,?,?)");
-            $stmt->bind_param("ssssss", $email, $hash_pass, $fname, $lname, $open_email, $photo);
+            $stmt = $conn->prepare("insert into user(email, password, fname, lname, pic)
+                            values (?,?,?,?,?)");
+            $stmt->bind_param("sssss", $email, $hash_pass, $fname, $lname, $photo);
 
             if ($stmt->execute()) {
                 $message = "Account created!";
@@ -62,13 +61,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $_SESSION['user_id'] = $row['user_id'];
                 $_SESSION['name'] = $row['fname'];
                 $_SESSION['isLoggedin'] = "true";
-                if ($email == "admin@gmail.com") {
-                    header("Location:http://localhost:8081/admin/admin.php");
+
+                if (isset($_SESSION['redirect_after_login'])) {
+                    $redirect = $_SESSION['redirect_after_login'] ?? 'home.php';
+                    unset($_SESSION['redirect_after_login']);
+                    header("Location: " . $redirect);
                     exit();
                 } else {
                     header("Location:http://localhost:8081/homepg.php");
-                    exit();
                 }
+
+
+
+                exit();
             } else {
                 $loginMsg = "Mismatch password!";
             }
@@ -146,6 +151,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         .register {
             display: none;
         }
+
     </style>
 </head>
 
@@ -158,7 +164,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="hasForm">
                 <form action="" method="post">
                     <input type="email" placeholder="Email" name="email"><br>
-                    <input type="text" placeholder="Password" name="password"><br>
+                    <input type="password" placeholder="Password" name="password"><br>
                     <span id="message"><?php echo htmlspecialchars($loginMsg); ?></span><br>
                     <input type="submit" value="Log in" name="login" style="text-align: center;">
                 </form>
@@ -173,13 +179,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <form action="" method="post" enctype="multipart/form-data">
                     <span id="error1"></span>
                     <label for="">Email:</label> <input type="email" placeholder="ram7872@gmail.com" name="email" id="email"><br>
-                    <label for="">Password:</label> <input type="text" placeholder="'Your password" name="Mpassword" id="Mpassword"><br>
+                    <label for="">Password:</label> <input type="password" placeholder="Your password" name="Mpassword" id="Mpassword"><br>
                     <span id="error2"></span><br>
-                    <label for="">Confirm Password:</label> <input type="text" placeholder="Confirm password" name="Cpassword" id="Cpassword"><br>
+                    <label for="">Confirm Password:</label> <input type="password" placeholder="Confirm password" name="Cpassword" id="Cpassword"><br>
                     <label for="">First Name:</label><input type="text" placeholder="Ram" name="fname"><br>
                     <label for="">Last Name:</label><input type="text" placeholder="Lama" name="lname"><br>
-                    <span>This email will be visible to the service provider.</span><br>
-                    <label for="">Email:</label><input type="email" placeholder="ram6567@gmail.com" name="Oemail" id="Oemail"><br>
                     <label for="">Photo:</label><input type="file" name="pic"><br>
                     <input type="submit" value="Create account" name="register">
                 </form>

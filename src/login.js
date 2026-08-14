@@ -2,9 +2,6 @@ password = document.getElementById("Mpassword");
 confirm_pass = document.getElementById("Cpassword");
 error = document.getElementById("error2");
 
-//load the email for open email 
-document.getElementById("Oemail").value = document.getElementById("email").value;
-
 //for adding event to display login or register form
 document.getElementById("showRegister").addEventListener("click", function (e) {
     e.preventDefault();//preventDefault() is used as href has "#"

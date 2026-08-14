@@ -85,9 +85,9 @@
             $dj = $_POST['dj'];
             $price = $_POST['price'];
 
-            $stmt = $conn->prepare("INSERT INTO hall (hall_name, seat_capacity, space_type, without_f, dj, pvt_room, description, price) 
-                        VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-            $stmt->bind_param("sisssis", $name, $seat, $type, $out_food, $dj, $room, $desc, $price);
+            $stmt = $conn->prepare("INSERT INTO hall (service_id,hall_name, seat_capacity, space_type, without_f, dj, pvt_room, description, price) 
+                        VALUES (2, ?, ?, ?, ?, ?, ?, ?, ?)");
+            $stmt->bind_param("sisssiss", $name, $seat, $type, $out_food, $dj, $room, $desc, $price);
             if ($stmt->execute()) {
                 $hall_id = $conn->insert_id;
                 // docker ma, /var/www/html/ is the document root not normal one
