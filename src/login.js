@@ -20,7 +20,7 @@ confirm_pass.addEventListener("input", function(event) {
     if (confirm_pass.value !== password.value) {
         error.innerHTML = "Both password should be the same!";
         document.getElementById("error2").style.display = "block";
-        error.style.color = "red";
+        error.style.color = "beige";
     } else {
         error.innerHTML = "Passwords are correct!";
     }

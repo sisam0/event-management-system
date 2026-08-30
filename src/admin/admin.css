@@ -1,3 +1,9 @@
+
+:root{
+    --main-font: "Dancing Script", cursive;
+    --secoundary-font: "Cormorant", serif;
+}
+
 /* topmost bar */
 .nav-bar{
     background-color: #FFFADA;
@@ -10,8 +16,15 @@
     box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
 }
 
+.ser-active{
+    background-color: rgb(255, 255, 159);
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+
+}
+
 .parent{
     padding: 5px 10px 10px 10px;
+    font-family: var(--secoundary-font);
 }
 
 .right{    
@@ -37,7 +50,7 @@ a{
 
 .admin-pic{
     border-radius: 50%;
-    border: 1px black solid;
+    /* border: 1px black solid; */
 }
 
 /* bottom div */

@@ -1,4 +1,12 @@
+
+
+:root{
+    --main-font: "Dancing Script", cursive;
+    --secoundary-font: "Cormorant", serif;
+}
+
 /* Reset and base styles */
+
 * {
     margin: 0;
     padding: 0;
@@ -13,6 +21,7 @@ body {
     justify-content: center;
     align-items: center;
     padding: 20px;
+    font-family: var(--secoundary-font);
 }
 
 /* Main container - no overlay effect */
@@ -31,7 +40,7 @@ body {
     width: 650px;
     max-width: 100%;
     background: white;
-    border: 2px solid #8B4513;
+    border: 2px solid brown;
     border-radius: 12px;
     padding: 30px;
     gap: 20px;box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
@@ -47,7 +56,7 @@ body {
 }
 
 .cardTop h2 {
-    color: #8B4513;
+    color: brown;
     font-size: 26px;
     font-weight: 600;
     margin: 0;
@@ -57,7 +66,7 @@ body {
 #closeCard {
     font-size: 32px;
     font-weight: 300;
-    color: #8B4513;
+    color: brown;
     cursor: pointer;
     width: 45px;
     height: 45px;
@@ -127,7 +136,7 @@ input[type="text"]:focus,
 input[type="number"]:focus,
 textarea:focus {
     outline: none;
-    border-color: #8B4513;
+    border-color: brown;
     box-shadow: 0 0 0 3px rgba(139, 69, 19, 0.1);
 }
 
@@ -140,7 +149,7 @@ textarea {
 /* Radio buttons */
 input[type="radio"] {
     margin-right: 6px;
-    accent-color: #8B4513;
+    accent-color: brown;
 }
 
 td:last-child input[type="radio"] {
@@ -165,8 +174,8 @@ input[type="file"] {
 
 input[type="file"]::file-selector-button {
     padding: 8px 16px;
-    background: #8B4513;
-    border: 2px solid #8B4513;
+    background: brown;
+    border: 2px solid brown;
     border-radius: 6px;
     color: white;
     font-weight: 600;
@@ -180,7 +189,7 @@ input[type="file"]::file-selector-button {
 input[type="submit"] {
     width: 100%;
     padding: 12px;
-    background: #8B4513;
+    background: brown;
     color: white;
     border: none;
     border-radius: 8px;

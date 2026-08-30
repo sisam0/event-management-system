@@ -1,3 +1,11 @@
+<?php
+session_start();
+if (isset($_SESSION['isLoggedin'])) {
+    $userPic = $_SESSION['userPic'];
+}
+// print_r($_SESSION);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -20,7 +28,11 @@
                 <a class="nav-contents" href="#gallery">Gallery</a>
                 <a class="nav-contents" href="service\service.php">Services</a>
                 <a class="nav-contents" href="#footer">Contact</a>
-                <a class="nav-contents" href="http://localhost:8081/login.php">Login</a>
+                <a class="nav-contents" id="login" href="http://localhost:8081/login.php" style="display:<?php echo isset($_SESSION['isLoggedin']) ? 'none' : 'inline-block'; ?>">Login</a>
+                <a href="logout.php" class="nav-contents" style="display:<?php echo isset($_SESSION['isLoggedin']) ? 'inline-block' : 'none'; ?>">Log out</a>
+                <img style="display:<?php echo isset($_SESSION['isLoggedin']) ? 'inline-block' : 'none'; ?>"
+                    src="<?php echo htmlspecialchars($userPic); ?>"
+                    alt="" height="25px" width="25px" class="nav-contents">
             </div>
             <div class="name-contents">
                 <img src="logo.png" alt="" height="85" style="opacity: 1;">
@@ -29,6 +41,7 @@
             </div>
         </div>
         <span id="about"></span>
+
         <div class="about">
             <h1>About us</h1>
             <p class="abt-text"> Welcome to <span style="font-family: var(--main-font);">laliguras</span>, where authentic flavors,
@@ -61,7 +74,18 @@
         <div class="footer" id="footer"></div>
 
     </div>
+    <script src="sweetalert2.min.js"></script>
     <script>
+        if (document.getElementById(login).style.display = "none") {
+            Swal.fire({
+                title: 'Success!',
+                text: 'You have logged in successfully.',
+                icon: 'success',
+                confirmButtonText: 'Close'
+            });
+            console.log("fired!");
+
+        }
     </script>
 </body>
 

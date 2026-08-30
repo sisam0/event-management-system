@@ -1,6 +1,11 @@
 <?php
 session_start();
+if (isset($_SESSION['isLoggedin'])) {
+    $userPic = $_SESSION['userPic'];
+}
+// print_r($_SESSION);
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -28,6 +33,20 @@ session_start();
     define('BASE_URL', 'http://localhost/event-mgt/src/');
     define('IMAGE_PATH', '/admin/ser-photos/');
 
+    if(isset($_GET['login="success'])){
+        ?>
+        <script>
+            Swal.fire({
+                title: 'Success!',
+                text: 'You have logged in successfully.',
+                icon: 'success',
+                confirmButtonText: 'Close'
+            });
+        </script>
+
+        <?php
+    }
+
     ?>
     <div class="parent">
         <div class="nav-bar">
@@ -35,7 +54,11 @@ session_start();
             <a class="nav-contents">Gallery</a>
             <a class="nav-contents">Services</a>
             <a class="nav-contents">Contact</a>
-            <a class="nav-contents" href="http://localhost:8081/login.php">Login</a>
+            <a class="nav-contents" href="http://localhost:8081/login.php" style="display:<?php echo isset($_SESSION['isLoggedin']) ? 'none' : 'inline-block'; ?>">Login</a>
+            <a href="ser-logout.php" class="nav-contents" style="display:<?php echo isset($_SESSION['isLoggedin']) ? 'inline-block' : 'none'; ?>">Log out</a>
+            <img style="display:<?php echo isset($_SESSION['isLoggedin']) ? 'inline-block' : 'none'; ?>"
+                src="<?php echo htmlspecialchars($userPic); ?>"
+                alt="" height="25px" width="25px" class="nav-contents">
         </div>
         <!-- here is display flex -->
         <div class="contents">

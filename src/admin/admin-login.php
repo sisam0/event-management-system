@@ -18,11 +18,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if ($row = $result->fetch_assoc()) {
             // print_r($row);
-            if (password_verify($pass, $row['password'])) {
+            if ($pass == $row['password']) {
                 $_SESSION['admin_id'] = $row['admin_id'];
-                $_SESSION['pic'] = $row['photo'];
+                // $_SESSION['pic'] = $row['photo'];
                 $_SESSION['isLoggedin'] = "true";
-                header("Location:http://localhost:8081/admin/admin.php");
+                header("Location: /admin/admin.php");
                 exit();
             } else {
                 $loginMsg = "Mismatch password!";
@@ -104,7 +104,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="hasForm">
                 <form action="" method="post">
                     <input type="email" placeholder="Email" name="email"><br>
-                    <input type="text" placeholder="Password" name="password"><br>
+                    <input type="password" placeholder="Password" name="password"><br>
                     <span id="message"><?php echo htmlspecialchars($loginMsg); ?></span><br>
                     <input type="submit" value="Log in" name="login" style="text-align: center;">
                 </form>

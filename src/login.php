@@ -3,6 +3,9 @@ session_start();
 include "connect2.php";
 $message = "";
 $loginMsg = "";
+$redirect = "";
+$loginSuccess = false;
+// print_r($_SESSION);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     //to execute for registration
@@ -50,7 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $pass = $_POST['password'];
 
         //get the user id
-        $stmt = $conn->prepare("select user_id, password, fname from user where email = ?");
+        $stmt = $conn->prepare("select user_id, password, fname, pic from user where email = ?");
         $stmt->bind_param("s", $email);
         $stmt->execute();
         $result = $stmt->get_result(); //gives result set of prepare()
@@ -60,20 +63,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if (password_verify($pass, $row['password'])) {
                 $_SESSION['user_id'] = $row['user_id'];
                 $_SESSION['name'] = $row['fname'];
-                $_SESSION['isLoggedin'] = "true";
+                $_SESSION['isLoggedin'] = true;
+                $_SESSION['userPic'] = $row['pic'];
+
+                $loginSuccess = true;
 
                 if (isset($_SESSION['redirect_after_login'])) {
-                    $redirect = $_SESSION['redirect_after_login'] ?? 'home.php';
+                    $redirect = $_SESSION['redirect_after_login'];
                     unset($_SESSION['redirect_after_login']);
-                    header("Location: " . $redirect);
-                    exit();
+
+                    // header("Location: " . $redirect);
+                    // exit();
                 } else {
-                    header("Location:http://localhost:8081/homepg.php");
+                    $redirect = "http://localhost:8081/homepg.php";
+                    // header("Location:http://localhost:8081/homepg.php");
                 }
 
-
-
-                exit();
+                // exit();
             } else {
                 $loginMsg = "Mismatch password!";
             }
@@ -82,6 +88,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -89,10 +96,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="sweetalert2.min.css">
     <title>Login Page</title>
     <style>
+        :root {
+            --main-font: "Dancing Script", cursive;
+            --secoundary-font: "Cormorant", serif;
+        }
+
         #error2 {
             display: none;
+            /* color: beige; */
         }
 
         * {
@@ -109,6 +123,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             background-position: center;
             background-size: cover;
             background-repeat: no-repeat;
+            font-family: var(--secoundary-font);
 
         }
 
@@ -139,6 +154,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             text-align: left;
         }
 
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        textarea:focus {
+            outline: none;
+            border-color: brown;
+            box-shadow: 0 0 0 3px rgba(251, 151, 80, 0.1);
+        }
+
         a {
             color: beige;
         }
@@ -151,11 +174,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         .register {
             display: none;
         }
-
     </style>
 </head>
 
 <body>
+
+    <?php
+    
+    if(isset($_SESSION['redirect_after_login'])){
+        ?>
+        <script>
+            alert("You need to login first!");
+        </script>
+        <?php
+    }
+
+    ?>
 
     <div class="parent">
         <div class="login main-body" id="login">
@@ -191,7 +225,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="login.js"></script>
+
+    <?php if ($loginSuccess == true): ?>
+        <script>
+            Swal.fire({
+                title: 'Success!',
+                text: 'You have logged in successfully.',
+                icon: 'success',
+                confirmButtonText: 'Close'
+            }).then(() => {
+                window.location.href = <?= json_encode($redirect) ?>;
+            });
+        </script>
+    <?php endif; ?>
 </body>
 
 </html>

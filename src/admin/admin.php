@@ -1,6 +1,10 @@
 <?php
 include "connect.php";
 session_start();
+
+if (empty($_SESSION['admin_id'])) {
+    header("Location: /admin/admin-login.php");
+}
 $msg = "";
 ?>
 
@@ -10,6 +14,9 @@ $msg = "";
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.0/css/all.min.css" integrity="sha512-ApSLB1Pd3/bZN8fWB/RG9YhN/7bd9Hkf3AGaE2mPfebjrxagjuBtx2GcgdqIlJkUzwylBo61r9Xa9NmgBI0swA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="admin.css">
     <title>Admin Dashboard</title>
@@ -19,7 +26,7 @@ $msg = "";
     <div class="parent">
         <div class="nav-bar">
             <div class="nav-left">
-                <img src="" alt="" height="50px" width="50px" class="admin-pic">
+                <img src="logo.png" alt="" height="50px" width="50px" class="admin-pic">
             </div>
 
             <div class="right">
@@ -29,11 +36,11 @@ $msg = "";
                 <div class="nav-anchor">
                     <a href="">Reports</a>
                 </div>
-                <div class="nav-anchor">
+                <div class="nav-anchor ser-active">
                     <a href="">Service</a>
                 </div>
                 <div class="nav-anchor">
-                    <a href="">Logout</a>
+                    <a href="admin-logout.php">Logout</a>
                 </div>
             </div>
         </div>

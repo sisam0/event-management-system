@@ -8,6 +8,7 @@
     <style>
         a {
             font-size: 40px;
+            text-decoration: none;
         }
     </style>
 </head>
@@ -17,7 +18,8 @@
     <a href="admin/admin.php">admin</a><br>
     <a href="service/service.php">service</a><br>
     <a href="login.php">user login</a><br>
-    <a href="admin/admin-login.php">admin login</a>
+    <a href="admin/admin-login.php">admin login</a><br>
+    <a href="admin/user-details.php">User Details</a>
 </body>
 
 </html>

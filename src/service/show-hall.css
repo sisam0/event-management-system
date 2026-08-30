@@ -1,10 +1,21 @@
 
 
+:root{
+    --main-font: "Dancing Script", cursive;
+    --secoundary-font: "Cormorant", serif;
+}
+
+
+* {
+    box-sizing: border-box;
+}
+
 body {
     margin: 0;
     padding: 30px;
     font-family: Arial, sans-serif;
     background-color: rgb(248, 248, 198);
+    font-family: var(--secoundary-font);
 }
 
 .parent{
@@ -17,18 +28,24 @@ body {
   justify-content: space-between;
 }
 
-button{
-    padding: 10px 25px;
-    background-color: brown;
-    color: white;
-    position: sticky;
-    top: 5px;
-    margin-bottom: 5px;
-    border: none;
-    z-index: 5;
-    border-radius: 10px;
-    font-size: 15px;
+.describe{
+    color: black;
+    width: 600px;
 }
+
+.show-middle{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* .close:hover{
+    background-color: brown;
+    color: beige;
+} */
+
 
 #cardInfo{
     border-radius: 10px;
@@ -38,17 +55,19 @@ button{
     display: flex;
     flex-direction: column;
 }
-#cardInfo .top-info .bookBtn{
+#cardInfo .bookBtn{
     width: max-content;
-    height: max-content;
-    position: sticky;
-    top: 5px;
+    height: max-content;    
+    position: fixed;
+    top: 50px;
+    left: 45px;
 }
 
 .info-table {
   border-collapse: collapse;
   margin: 12px 0 18px;
 }
+
 .info-table td {
   padding: 8px 6px 8px 0;
   border-bottom: 1px solid #f0ece6;
@@ -56,7 +75,7 @@ button{
 }
 
 .info-table td:first-child {
-  width: 140px;
+  width: 250px;
   font-weight: 500;
   color: #4d3e30;
 }
@@ -84,6 +103,10 @@ button{
     cursor: pointer;
     padding: 10px;
     z-index: 10;
+}
+
+.imageCard{
+    margin: 10px;
 }
 
 /* to show the full screen of the photos of halls  */
@@ -119,11 +142,6 @@ button{
     margin: 40px auto;
     font-size: 0.85em;
 }
-* {
-    box-sizing: border-box;
-}
-
-
 
 .bookBtn {
     padding: 10px 25px;
@@ -133,6 +151,7 @@ button{
     border-radius: 8px;
     cursor: pointer;
     font-size: 16px;
+    margin-bottom: 5px;
 }
 
 .book-overlay.active { 

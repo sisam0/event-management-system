@@ -73,7 +73,11 @@ if ($row) {
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="show-hall.css">
         <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.18/main.min.css" rel="stylesheet">
+
+        <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.0/css/all.min.css" integrity="sha512-ApSLB1Pd3/bZN8fWB/RG9YhN/7bd9Hkf3AGaE2mPfebjrxagjuBtx2GcgdqIlJkUzwylBo61r9Xa9NmgBI0swA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
         <title>Halls</title>
     </head>
 
@@ -81,57 +85,78 @@ if ($row) {
         <div class="parent">
 
             <div id="cardInfo">
+                <button class="bookBtn" id="bookBtn">Book hall!</button>
                 <div class="top-info">
-                    <button class="bookBtn" id="bookBtn">Book hall!</button>
-                    <h2 style="text-align: center;"><?php echo $hallName; ?></h2>
-                    <span class="closeCard" onclick="closeService()">&times;</span>
+                    <div> </div>
+                    <h1 style="text-align: center;" class="main-close"><?php echo $hallName; ?></h1>
+                    <span class="closeCard close" onclick="closeService()">&times;</span>
                 </div>
 
-                <div>
-                    <table class="info-table" data-service-id="<?php echo $hall_id; ?>">
-                        <tr>
-                            <td class="ser-tbl"><i class="fa-solid fa-person"></i>Seat Capacity</td>
-                            <td class="ser-tbl"><?php echo $row['seat_capacity']; ?></td>
-                        </tr>
-                        <tr>
-                            <td class="ser-tbl"><i class="fa-solid fa-building"></i>Type</td>
-                            <td class="ser-tbl"><?php echo $row['space_type']; ?></td>
-                        </tr>
-                        <tr>
-                            <td><i class="fa-solid fa-money-bill"></i>Price</td>
-                            <td><?php echo $row['price']; ?></td>
-                        </tr>
-                    </table>
-
-                    <p class="describe"><?php echo $row['description']; ?></p>
-                    <br>
-                </div>
-
-                <div class="gallery">
+                <div class="show-middle">
                     <div>
-                        <?php
-                        $sql = "select photo from photos where hall_id = ?";
-                        $get = $conn->prepare($sql);
-                        $get->bind_param("i", $row['hall_id']);
-                        $get->execute();
-                        $hallPhoto = $get->get_result();
+                        <table class="info-table" data-service-id="<?php echo $hall_id; ?>">
+                            <tr>
+                                <td class="ser-tbl"><i class="fa-solid fa-person"></i> Seat Capacity</td>
+                                <td class="ser-tbl"><?php echo $row['seat_capacity']; ?></td>
+                            </tr>
+                            <tr>
+                                <td class="ser-tbl"><i class="fa-solid fa-building"></i> Type</td>
+                                <td class="ser-tbl"><?php echo $row['space_type']; ?></td>
+                            </tr>
+                            <tr>
+                                <td><i class="fa-solid fa-money-bill"></i> Price</td>
+                                <td><?php echo $row['price']; ?></td>
+                            </tr>
+                            <tr>
+                                <td><i class="fa-solid fa-bowl-food"></i> Can you bring outside food?</td>
+                                <td><?php echo $row['without_f']; ?></td>
+                            </tr>
+                            <tr>
+                                <td><i class="fa-solid fa-music"></i> Is there a DJ service?</td>
+                                <td><?php echo $row['dj']; ?></td>
+                            </tr>
+                            <tr>
+                                <td><i class="fa-solid fa-door-open"></i> Number of private rooms</td>
+                                <td><?php echo $row['pvt_room']; ?></td>
+                            </tr>
 
-                        while ($pic = $hallPhoto->fetch_assoc()) {
-                        ?>
-                            <img class="imageCard" width="340px" src="<?php echo "/" . $pic['photo']; ?>" onclick="fullView(this.src)">
-                        <?php
-                        }
+                        </table>
 
-                        ?>
+                        <p class="describe"><?php echo $row['description']; ?></p>
+                        <br>
                     </div>
 
-                    <div id="full-image-view">
-                        <img id="full-image"></img>
-                        <span id="closeBtn" onclick="closeFullView()">&times;</span>
+                    <div class="gallery">
+                        <div>
+                            <?php
+                            $sql = "select photo from photos where hall_id = ?";
+                            $get = $conn->prepare($sql);
+                            $get->bind_param("i", $row['hall_id']);
+                            $get->execute();
+                            $hallPhoto = $get->get_result();
+                            $i = 1;
+
+                            while ($pic = $hallPhoto->fetch_assoc()) {
+                            ?>
+                                <img class="imageCard" height="225px" width="340px" src="<?php echo "/" . $pic['photo']; ?>" onclick="fullView(this.src)">
+                            <?php
+                                if ($i % 2 == 0) {
+                                    echo "<br>";
+                                }
+                                $i++;
+                            }
+
+                            ?>
+                        </div>
+
+                        <div id="full-image-view">
+                            <img id="full-image"></img>
+                            <span id="closeBtn" onclick="closeFullView()">&times;</span>
+                        </div>
                     </div>
+
+                    <div id="calendar"></div>
                 </div>
-
-                <div id="calendar"></div>
             </div>
             <!-- $row ends here  -->
         <?php } ?>
@@ -141,7 +166,7 @@ if ($row) {
             <div class="bookCard">
 
                 <div class="book-popup" id="bookingPopup" style="<?php echo $booked ? 'display:none;' : 'display:block;'; ?>">
-                    <span class="close-book" onclick="closeBooking()">&times;</span>
+                    <span class="close-book close" onclick="closeBooking()">&times;</span>
                     <h2>Book This Hall</h2>
 
                     <form id="bookingForm" method="POST">
@@ -179,10 +204,10 @@ if ($row) {
                 </div>
 
 
-                <!-- SUCCESS -->
+                <!-- success ko pop up  -->
                 <div class="success-popup" id="successPopup" style="<?php echo $booked ? 'display:block;' : 'display:none;'; ?>">
 
-                    <span class="close-book" onclick="closeBooking()">&times;</span>
+                    <span class="close-book close" onclick="closeBooking()">&times;</span>
 
                     <h2>You successfully booked the venue!</h2>
                     <p>Your booking has been submitted successfully.</p>
@@ -195,7 +220,11 @@ if ($row) {
         <script>
             console.log("this is the show in firskdjcs  service page ");
         </script>
+
+        <!-- for calnder -->
         <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.18/index.global.min.js"></script>
+
+
         <script src="show-service.js"></script>
     </body>
 
