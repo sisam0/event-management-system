@@ -1,5 +1,4 @@
 
-
 :root{
     --main-font: "Dancing Script", cursive;
     --secoundary-font: "Cormorant", serif;
@@ -24,8 +23,12 @@ body {
 }
 
 .top-info{
+    top: 10px;
+    position: sticky;
   display: flex;
   justify-content: space-between;
+  background-color: white;
+  /* box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px; */
 }
 
 .describe{
@@ -58,7 +61,7 @@ body {
 #cardInfo .bookBtn{
     width: max-content;
     height: max-content;    
-    position: fixed;
+    /* position: fixed; */
     top: 50px;
     left: 45px;
 }
@@ -98,11 +101,12 @@ body {
 
 .closeCard{
     font-size: 3rem;
-    top: 12px;
-    right: 12px;
+    top: 50px;
+    right: 45px;
     cursor: pointer;
     padding: 10px;
     z-index: 10;
+    /* position: fixed; */
 }
 
 .imageCard{
@@ -204,7 +208,7 @@ body {
     font-weight: 500;
 }
 
-.form-group input,
+.form-group .book-input,
 .form-group textarea {
     width: 100%;
     padding: 8px;

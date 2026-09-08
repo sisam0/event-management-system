@@ -1,11 +1,8 @@
 
-
 :root{
     --main-font: "Dancing Script", cursive;
     --secoundary-font: "Cormorant", serif;
 }
-
-/* Reset and base styles */
 
 * {
     margin: 0;

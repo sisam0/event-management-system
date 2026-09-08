@@ -74,19 +74,7 @@ if (isset($_SESSION['isLoggedin'])) {
         <div class="footer" id="footer"></div>
 
     </div>
-    <script src="sweetalert2.min.js"></script>
-    <script>
-        if (document.getElementById(login).style.display = "none") {
-            Swal.fire({
-                title: 'Success!',
-                text: 'You have logged in successfully.',
-                icon: 'success',
-                confirmButtonText: 'Close'
-            });
-            console.log("fired!");
-
-        }
-    </script>
+    
 </body>
 
 </html>

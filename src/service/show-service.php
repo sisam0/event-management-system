@@ -33,6 +33,7 @@ if ($row) {
             $booking_date = $_POST['booking_date'];
             $message = $_POST['message'];
             $guest_count = $_POST['guest_count'];
+            $needed_ser = $_POST['needed-ser'];
 
             // echo $service_id;
             // Calculate total
@@ -45,6 +46,13 @@ if ($row) {
             $stmt->bind_param("isisi", $user_id, $booking_date, $guest_count, $message, $total);
             $stmt->execute();
             $booking_id = $conn->insert_id;
+
+             //to check if we want to direct to the menu list or not 
+            if($needed_ser == 'yes'){
+                $_SESSION['directed_from_halls'] = true;
+                
+
+            }
 
             // Insert into booking_service table
             $booking_service_query = "INSERT INTO booking_service (booking_id, service_id, price, date) 
@@ -61,6 +69,11 @@ if ($row) {
 
             $_SESSION["booked"] = true;
             $booked = true;
+
+            if($stmt && $_SESSION['directed_from_halls'] == true){
+                //then go to the different page to book menus
+
+            }
         }
     }
 ?>
@@ -85,9 +98,9 @@ if ($row) {
         <div class="parent">
 
             <div id="cardInfo">
-                <button class="bookBtn" id="bookBtn">Book hall!</button>
+                
                 <div class="top-info">
-                    <div> </div>
+                    <button class="bookBtn" id="bookBtn">Book hall!</button>
                     <h1 style="text-align: center;" class="main-close"><?php echo $hallName; ?></h1>
                     <span class="closeCard close" onclick="closeService()">&times;</span>
                 </div>
@@ -170,35 +183,37 @@ if ($row) {
                     <h2>Book This Hall</h2>
 
                     <form id="bookingForm" method="POST">
-                        <input type="hidden" name="service_id" id="service_id" value="<?php echo $hall_id; ?>">
-                        <input type="hidden" name="hall_name" value="<?php echo htmlspecialchars($hallName); ?>">
+                        <input class="book-input" type="hidden" name="service_id" id="service_id" value="<?php echo $hall_id; ?>">
+                        <input type="hidden" class="book-input" name="hall_name" value="<?php echo htmlspecialchars($hallName); ?>">
 
                         <div class="form-group">
                             <label>Selected Date:</label>
-
-                            <input type="text" name="booking_date_display" id="booking_date_display" readonly>
-
+                            <input type="text" class="book-input" name="booking_date_display" id="booking_date_display" readonly>
                             <input type="hidden" name="booking_date" id="booking_date">
                         </div>
 
                         <div class="form-group">
+                            <label>Do you want to book catering services for that day?:</label>
+                            <div><input type="checkbox" name="needed-ser" value="yes">Yes 
+                                <input type="checkbox" name="needed-ser" value="no">No</div>
+                        </div>
+
+                        <div class="form-group">
                             <label>Special Requests (Optional):</label>
-                            <textarea name="message" id="message" rows="3"></textarea>
+                            <textarea name="message" id="message" rows="3" class="book-input" ></textarea>
                         </div>
 
                         <div class="form-group">
                             <label>Total Price:</label>
-                            <div>Rs. <input type="number" name="price" value="<?php echo $price; ?>" readonly></div>
+                            <div>Rs. <input type="number" class="book-input" name="price" value="<?php echo $price; ?>" readonly></div>
                         </div>
 
                         <div class="form-group">
                             <label>Approximate Guest Count:</label>
-                            <div>Rs. <input type="number" name="guest_count"></div>
+                            <input type="number" class="book-input" name="guest_count">
                         </div>
 
-                        <button type="submit" class="submit-btn" name="confirmBtn">
-                            Confirm Booking
-                        </button>
+                        <button type="submit" class="submit-btn" name="confirmBtn">Book!</button>
 
                     </form>
                 </div>

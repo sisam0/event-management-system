@@ -33,21 +33,8 @@ if (isset($_SESSION['isLoggedin'])) {
     define('BASE_URL', 'http://localhost/event-mgt/src/');
     define('IMAGE_PATH', '/admin/ser-photos/');
 
-    if(isset($_GET['login="success'])){
-        ?>
-        <script>
-            Swal.fire({
-                title: 'Success!',
-                text: 'You have logged in successfully.',
-                icon: 'success',
-                confirmButtonText: 'Close'
-            });
-        </script>
-
-        <?php
-    }
-
     ?>
+    
     <div class="parent">
         <div class="nav-bar">
             <a class="nav-contents">About</a>

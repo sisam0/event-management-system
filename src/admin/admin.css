@@ -74,16 +74,18 @@ a{
 .name{
     cursor: pointer;
     padding: 10px 55px;
+    font-family: var(--secoundary-font);
     border: none;
     /* border: 1px solid black; */
     background: rgb(253, 253, 252);
     border-radius: 10px;
     box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
-
+    font-size: 16px;
 }
 
 .name.active-btn{
-    background: rgb(255, 255, 159);
+    background: rgb(255, 255, 159);    
+    font-family: var(--secoundary-font);
 }
 
 #hall{
@@ -109,6 +111,9 @@ a{
     border-radius: 10px;
     background-color: rgb(255, 255, 159);
     cursor: pointer;
+    margin-top: 5px;
+    font-family: var(--secoundary-font);
+    font-size: larger;
 }
 
 /* for each hall display */
@@ -116,7 +121,7 @@ a{
     padding: 10px;
     border: 1px solid rgb(130, 129, 129);
     border-radius: 5px;
-    margin-left: 5px;
+    margin-left: 20px;
     margin-bottom: 15px;
     width: fit-content;
     text-align: center;
@@ -165,8 +170,11 @@ td{
 }
 
 .food-list{
-    margin-right: 20px;
+    margin-left: 110px;
     margin-bottom: 30px;
+    display: flex;
+  align-items: center;
+  flex-direction: column;
 
 }
 

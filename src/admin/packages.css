@@ -1,0 +1,84 @@
+
+:root{
+    --main-font: "Dancing Script", cursive;
+    --secoundary-font: "Cormorant", serif;
+}
+
+/* topmost bar */
+.nav-bar{
+    background-color: #FFFADA;
+    padding: 5px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+}
+
+.ser-active{
+    background-color: rgb(255, 255, 159);
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+
+}
+
+.parent{
+    padding: 5px 10px 10px 10px;
+    font-family: var(--secoundary-font);
+}
+
+.right{    
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
+
+.nav-anchor{
+    padding: 5px 25px;
+    margin-left: 15px;
+    border: 1px solid black;
+    height: fit-content;
+    border-radius: 10px;
+    text-align: center;
+}
+
+a{
+    color: black;
+    text-decoration: none;
+    margin-right: 10px;
+}
+
+.admin-pic{
+    border-radius: 50%;
+    /* border: 1px black solid; */
+}
+
+/* bottom div */
+.contents{
+    padding: 10px;
+    border-radius: 10px;
+    /* border: 1px solid black; */
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+}
+
+.service-names{
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-evenly;
+    position: sticky;
+    top: 0;
+    background-color: white;
+    padding: 10px;
+}
+
+.name{
+    cursor: pointer;
+    padding: 10px 55px;
+    font-family: var(--secoundary-font);
+    border: none;
+    /* border: 1px solid black; */
+    background: rgb(253, 253, 252);
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
+    font-size: 16px;
+}

@@ -31,7 +31,7 @@ $msg = "";
 
             <div class="right">
                 <div class="nav-anchor">
-                    <a href="">User</a>
+                    <a href="user-details.php">User</a>
                 </div>
                 <div class="nav-anchor">
                     <a href="">Reports</a>
@@ -49,6 +49,7 @@ $msg = "";
             <div class="service-names">
                 <button class="name" onclick="showService('hall',this)">Hall</button>
                 <button class="name" onclick="showService('catering',this)">Catering</button>
+                <a class="name" href="packages.php">Package</a>
                 <!-- <span class="name" id="hall">Hall</span>
                 <span class="name" id="catering">Catering</span> -->
             </div>
@@ -180,7 +181,7 @@ $msg = "";
 
 
                             <!-- to show while editing menu -->
-                            <div id="overlay">
+                            <!-- <div id="overlay">
                                 <form action="" method="post">
                                     <table>
                                         <tr>
@@ -194,22 +195,22 @@ $msg = "";
                                                 </select></td>
                                         </tr>
                                     </table>
-                                </form>
-
-                            </div>
+                                </form> -->
 
                         </div>
+
                     </div>
                 </div>
-
             </div>
 
-
-
-
-
-
         </div>
+
+
+
+
+
+
+    </div>
     </div>
     </div>
     <script>
