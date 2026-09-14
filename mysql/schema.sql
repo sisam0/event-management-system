@@ -68,15 +68,6 @@ foreign key(booking_id) references booking(booking_id),
 foreign key(service_id) references service(service_id)
 );
 
-create table packages(
-package_id int primary key auto_increment,
-service_id int,
-name varchar(200),
-description text,
-price int,
-foreign key(service_id) references service(service_id)
-);
-
 create table admin(
 admin_id int primary key auto_increment,
 photo text,
@@ -89,4 +80,27 @@ unavailable_id int primary key auto_increment,
 service_id int,
 date date,
 foreign key(service_id) references service(service_id)
+);
+
+create table packages(
+package_id int primary key auto_increment,
+service_id int,
+menu_id int,
+catering_id int,
+name varchar(200),
+description text,
+price int,
+type varchar(200) check(type = "catering" or type = "hall" or type = "both")
+foreign key(service_id) references service(service_id),
+foreign key(menu_id) references menu(menu_id),
+foreign key(service_id) references service(service_id)
+);
+
+CREATE TABLE package_details (
+    detail_id INT AUTO_INCREMENT PRIMARY KEY,
+    package_id INT NOT NULL,
+	service_id int not null,
+    detail_text VARCHAR(255) NOT NULL,
+    FOREIGN KEY (package_id) REFERENCES packages(package_id) ON DELETE CASCADE
+    FOREIGN KEY (service_id) REFERENCES service(service_id) ON DELETE CASCADE
 );
