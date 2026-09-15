@@ -52,21 +52,23 @@ session_start();
 
             <div class="card">
                 <div class="addingHall">
-                    <i class="fa-solid fa-plus"></i> Add new hall photos
+                    <i class="fa-solid fa-plus"></i> Add new package
                 </div>
-                <button class="btn" onclick="addHall()">Add new hall</button>
+                <button class="btn" onclick="addHall()">Add new package</button>
             </div>
 
         </div>
 </body>
 <script>
+    document.querySelector(".addingHall").addEventListener("click", addHall);
+
     function goTo(destination) {
         if (destination == "hall") {
 
         }
     }
 
-    function addHall(){
+    function addHall() {
         window.location.href = "http://localhost:8081/admin/add-packages.php";
     }
 </script>

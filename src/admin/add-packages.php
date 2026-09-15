@@ -1,6 +1,12 @@
 <?php
 include 'connect.php';
 session_start();
+$packageAdded = false;
+$errorMessage = '';
+
+// Enable exceptions for mysqli errors so try/catch below actually catches failures.
+// Best placed in connect.php right after creating $conn, but included here as a fallback.
+mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 ?>
 
 <!DOCTYPE html>
@@ -32,12 +38,12 @@ session_start();
                 <td>Halls</td>
                 <td>
                     <?php
-                    $query = "select hall_name from hall";
+                    $query = "select hall_id, hall_name from hall";
                     $hall = mysqli_query($conn, $query);
 
                     while ($row = mysqli_fetch_assoc($hall)) {
-                        $hall_name = $row['hall_name'];
-                        echo '<input type="radio" name="hall_name" value="' . htmlspecialchars($row['hall_name']) . '"> ' . htmlspecialchars($row['hall_name']);
+                        echo '<input type="radio" name="hall_id" value="' . htmlspecialchars($row['hall_id']) . '"> ' . htmlspecialchars($row['hall_name']);
+                        echo "<br>";
                     }
                     ?>
                 </td>
@@ -46,12 +52,12 @@ session_start();
                 <td>Catering</td>
                 <td>
                     <?php
-                    $query = "select type from menu group by type";
+                    $query = "select type_id, type_name from food_types";
                     $menu = mysqli_query($conn, $query);
 
                     while ($row = mysqli_fetch_assoc($menu)) {
-                        $menu_type = $row['type'];
-                        echo '<input type="checkbox" name="menu_type" value="' . htmlspecialchars($row['type']) . '"> ' . htmlspecialchars($row['type']);
+                        echo '<input type="checkbox" name="menu_type[]" value="' . htmlspecialchars($row['type_id']) . '"> ' . htmlspecialchars($row['type_name']);
+                        echo "<br>";
                     }
                     ?>
                 </td>
@@ -62,52 +68,73 @@ session_start();
             </tr>
             <tr>
                 <td>Price:</td>
-                <td><input type="number" name="price"></td>
+                <td><input type="number" name="price" step="0.01"></td>
             </tr>
             <tr>
                 <td colspan="2"><input type="submit" name="submit"></td>
             </tr>
 
-
         </table>
     </form>
 
     <?php
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
 
-        if (isset($_POST['submit'])) {
-            $name = $_POST['p_name'];
-            $type = $_POST['type'];
-            $description = $_POST['description'];
-            $price = $_POST['price'];
-            $service_id = 3;
+        $name = $_POST['p_name'];
+        $type = $_POST['type'];
+        $description = $_POST['description'];
+        $price = $_POST['price'];
+        $service_id = 3;
 
-            $query = "insert into packages (service_id, name, description, price, type) values(?,?,?,?,?)";
+        $hall_id = ($type == "hall" || $type == "both") ? (int) $_POST['hall_id'] : null;
+        $menu_type = ($type == "catering" || $type == "both") ? $_POST['menu_type'] : []; //array of selected food type ids
+
+        $conn->begin_transaction();
+
+        try {
+            $query = "insert into packages (service_id, hall_id, name, description, price, type) values(?,?,?,?,?,?)";
             $stmt = $conn->prepare($query);
-            $stmt->bind_param("issis", $service_id, $name, $description, $price, $type);
+            $stmt->bind_param("iissds", $service_id, $hall_id, $name, $description, $price, $type);
             $stmt->execute();
 
-            if ($stmt) {
-                $packageAdded = true;
+            $package_id = $conn->insert_id;
+
+            foreach ($menu_type as $type_id) {
+                $type_id = (int) $type_id;
+                $food_query = "insert into package_food_types(package_id, type_id) values(?, ?)";
+                $food_stmt = $conn->prepare($food_query);
+                $food_stmt->bind_param("ii", $package_id, $type_id);
+                $food_stmt->execute();
             }
+
+            $conn->commit();
+            $packageAdded = true;
+
+        } catch (mysqli_sql_exception $e) {
+            $conn->rollback();
+            $errorMessage = $e->getMessage();
         }
     }
     ?>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <?php if ($packageAdded == true) {
-    ?>
+    <?php if ($packageAdded): ?>
         <script>
             Swal.fire({
                 title: "Package is added!",
                 icon: "success"
             });
         </script>
-    <?php
-    }
-    ?>
+    <?php elseif ($errorMessage): ?>
+        <script>
+            Swal.fire({
+                title: "Failed to add package",
+                text: <?php echo json_encode($errorMessage); ?>,
+                icon: "error"
+            });
+        </script>
+    <?php endif; ?>
 
     <script src="add-package.js"></script>
 </body>
-
 
 </html>

@@ -85,15 +85,12 @@ foreign key(service_id) references service(service_id)
 create table packages(
 package_id int primary key auto_increment,
 service_id int,
-menu_id int,
-catering_id int,
+hall_id int,
 name varchar(200),
 description text,
 price int,
-type varchar(200) check(type = "catering" or type = "hall" or type = "both")
 foreign key(service_id) references service(service_id),
-foreign key(menu_id) references menu(menu_id),
-foreign key(service_id) references service(service_id)
+foreign key(hall_id) references hall(hall_id)
 );
 
 CREATE TABLE package_details (
@@ -103,4 +100,18 @@ CREATE TABLE package_details (
     detail_text VARCHAR(255) NOT NULL,
     FOREIGN KEY (package_id) REFERENCES packages(package_id) ON DELETE CASCADE
     FOREIGN KEY (service_id) REFERENCES service(service_id) ON DELETE CASCADE
+);
+
+
+CREATE TABLE food_types (
+    type_id INT AUTO_INCREMENT PRIMARY KEY,
+    type_name VARCHAR(50) NOT NULL UNIQUE 
+);
+
+CREATE TABLE package_food_types (
+	package_food_id int primary key auto_increment,
+    package_id INT NOT NULL,
+    type_id INT NOT NULL,
+    FOREIGN KEY (package_id) REFERENCES packages(package_id),
+    FOREIGN KEY (type_id) REFERENCES food_types(type_id)
 );
