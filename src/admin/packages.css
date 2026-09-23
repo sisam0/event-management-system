@@ -94,18 +94,100 @@ a{
     font-family: var(--secoundary-font);
     font-size: larger;
 }
-
-.card{
-    padding: 10px;
-    border: 1px solid rgb(130, 129, 129);
-    border-radius: 5px;
-    margin-left: 10px;
-    margin-bottom: 15px;
-    width: fit-content;
-    text-align: center;
+.contents .card-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px;
 }
 
-.addingHall{
+.card {
+    width: 300px;
+    padding: 16px;
+    border: 1px solid rgb(225, 222, 210);
+    border-radius: 10px;
+    margin: 0; /* was margin-left/margin-bottom — now handled by gap on the container */
+    text-align: left;
+    background: #fffefb;
+    box-shadow: rgba(0, 0, 0, 0.08) 0px 3px 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-left: 50px;
+}
+
+.card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.package-type {
+    font-family: var(--secoundary-font);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    background: rgb(255, 255, 159);
+}
+
+.type-hall { background: #cfe8ff; }
+.type-catering { background: #ffe1c2; }
+.type-both { background: rgb(255, 255, 159); }
+
+.package-price {
+    font-family: var(--secoundary-font);
+    font-weight: 700;
+    font-size: 16px;
+    color: #2b2b2b;
+}
+
+.card h3 {
+    font-family: var(--main-font);
+    font-size: 26px;
+    margin: 0;
+    color: #2b2b2b;
+    text-align: left;
+}
+
+.package-description {
+    font-family: var(--secoundary-font);
+    font-size: 14px;
+    color: #666;
+    line-height: 1.4;
+    margin: 0;
+}
+
+.package-meta {
+    display: flex;
+    gap: 14px;
+    font-family: var(--secoundary-font);
+    font-size: 13px;
+    color: #444;
+}
+
+.package-details {
+    font-family: var(--secoundary-font);
+    font-size: 13px;
+    color: #888;
+    padding: 8px 0 0 18px;
+    margin: 0;
+    border-top: 1px dashed #ddd;
+}
+
+.package-details li {
+    margin-bottom: 2px;
+}
+
+.card .btn {
+    margin-top: 6px;
+    padding: 8px 0;
+    width: 100%;
+    font-size: 14px;
+}
+
+/* the "add new package" card should match the same grid item sizing */
+.addingHall {
     height: 230px;
     width: 350px;
     background-color: gray;
@@ -113,5 +195,5 @@ a{
     align-items: center;
     display: flex;
     justify-content: center;
-    margin-bottom: 35px;
+    margin-bottom: 0;
 }

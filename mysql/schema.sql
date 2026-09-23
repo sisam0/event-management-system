@@ -93,16 +93,6 @@ foreign key(service_id) references service(service_id),
 foreign key(hall_id) references hall(hall_id)
 );
 
-CREATE TABLE package_details (
-    detail_id INT AUTO_INCREMENT PRIMARY KEY,
-    package_id INT NOT NULL,
-	service_id int not null,
-    detail_text VARCHAR(255) NOT NULL,
-    FOREIGN KEY (package_id) REFERENCES packages(package_id) ON DELETE CASCADE
-    FOREIGN KEY (service_id) REFERENCES service(service_id) ON DELETE CASCADE
-);
-
-
 CREATE TABLE food_types (
     type_id INT AUTO_INCREMENT PRIMARY KEY,
     type_name VARCHAR(50) NOT NULL UNIQUE 

@@ -117,16 +117,17 @@ $msg = "";
 
                         <div class="food-cols">
                             <?php
-                            $query = "select type from menu group by type";
+                            $query = "select type_id, type_name from food_types";
                             $types = $conn->query($query);
 
                             while ($row = $types->fetch_assoc()) {
                                 $counter = 1;
-                                $food_type = $row['type'];
+                                $food_type = $row['type_name'];
+                                $type_id = $row['type_id'];
 
                                 //to get each food name of each type rn named as $food_type
-                                $stmt = $conn->prepare("SELECT * FROM menu WHERE type = ?");
-                                $stmt->bind_param("s", $food_type);
+                                $stmt = $conn->prepare("SELECT * FROM menu WHERE type_id = ?");
+                                $stmt->bind_param("i", $type_id);
                                 $stmt->execute();
                                 $getFood = $stmt->get_result();
                             ?>

@@ -67,6 +67,21 @@ mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
                 <td><textarea name="description" cols="30px" rows="5px" id=""></textarea></td>
             </tr>
             <tr>
+                <td>Choose features of the package:</td>
+                <td>
+                    <?php
+                    $details = "select * from detail";
+                    $res = mysqli_query($conn, $details);
+
+                    while ($row = mysqli_fetch_assoc($res)) {
+                        echo '<input type="checkbox" value="' . htmlspecialchars_decode($row['detail_id']) . '" name="details[]">' . htmlspecialchars($row['detail_text']);
+                        echo "<br>";
+                    }
+                    ?>
+
+                </td>
+            </tr>
+            <tr>
                 <td>Price:</td>
                 <td><input type="number" name="price" step="0.01"></td>
             </tr>
@@ -85,6 +100,7 @@ mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
         $description = $_POST['description'];
         $price = $_POST['price'];
         $service_id = 3;
+        $package_detail = $_POST['details'];
 
         $hall_id = ($type == "hall" || $type == "both") ? (int) $_POST['hall_id'] : null;
         $menu_type = ($type == "catering" || $type == "both") ? $_POST['menu_type'] : []; //array of selected food type ids
@@ -107,9 +123,16 @@ mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
                 $food_stmt->execute();
             }
 
+            foreach ($package_detail as $detail) {
+                $detail_id = (int) $detail;
+                $detail_query = "insert into package_details(detail_id, package_id) values(?,?)";
+                $detail_stmt = $conn->prepare($detail_query);
+                $detail_stmt->bind_param("ii", $detail_id, $package_id);
+                $detail_stmt->execute();
+            }
+
             $conn->commit();
             $packageAdded = true;
-
         } catch (mysqli_sql_exception $e) {
             $conn->rollback();
             $errorMessage = $e->getMessage();

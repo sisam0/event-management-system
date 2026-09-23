@@ -15,6 +15,7 @@ session_start();
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.0/css/all.min.css" integrity="sha512-ApSLB1Pd3/bZN8fWB/RG9YhN/7bd9Hkf3AGaE2mPfebjrxagjuBtx2GcgdqIlJkUzwylBo61r9Xa9NmgBI0swA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css" integrity="sha512-QeR2VH+lsBE5LSAe1Q5EnTBbe7XTBubt8dG93Y7gidSgdMCr8nVqKcfKAMyN96SV8KDbZVTDXChatu5G2KQGzg==" crossorigin="anonymous" referrerpolicy="no-referrer">
     <link rel="stylesheet" href="packages.css">
 </head>
 
@@ -50,11 +51,72 @@ session_start();
                 <span class="name" id="catering">Catering</span> -->
             </div>
 
-            <div class="card">
-                <div class="addingHall">
-                    <i class="fa-solid fa-plus"></i> Add new package
-                </div>
-                <button class="btn" onclick="addHall()">Add new package</button>
+            <div class="card-container">
+
+
+                <?php
+                $query = " SELECT 
+        p.package_id,
+        p.name,
+        p.description,
+        p.price,
+        p.type,
+        s.ser_name,
+        h.hall_name
+    FROM packages p
+    LEFT JOIN service s ON s.service_id = p.service_id
+    LEFT JOIN hall h ON h.hall_id = p.hall_id
+";
+                $result = $conn->query($query);
+                ?>
+
+                <?php while ($package = $result->fetch_assoc()): ?>
+                    <?php
+                    $detail_query = "SELECT dt.detail_text FROM package_details pd
+                        JOIN detail dt ON dt.detail_id = pd.detail_id
+                        WHERE pd.package_id = ? LIMIT 2 ";
+
+                    $detail_stmt = $conn->prepare($detail_query);
+                    $detail_stmt->bind_param("i", $package['package_id']);
+                    $detail_stmt->execute();
+                    $details = $detail_stmt->get_result();
+                    ?>
+
+                    <div class="card">
+                        <div class="card-top">
+                            <span class="package-type type-<?= strtolower(htmlspecialchars($package['type'])) ?>">
+                                <?= htmlspecialchars($package['type']) ?>
+                            </span>
+                            <span class="package-price">Rs. <?= number_format($package['price']) ?></span>
+                        </div>
+
+                        <h3><?= htmlspecialchars($package['name']) ?></h3>
+                        <p class="package-description"><?= htmlspecialchars($package['description']) ?></p>
+
+                        <div class="package-meta">
+                            <?php if ($package['hall_name']): ?>
+                                <span><i class="fa-solid fa-building-columns"></i><?= htmlspecialchars($package['hall_name']) ?></span>
+                            <?php endif; ?>
+                            <?php if ($package['ser_name']): ?>
+                                <span><i class="fa-solid fa-utensils"></i> <?= htmlspecialchars($package['ser_name']) ?></span>
+                            <?php endif; ?>
+                        </div>
+
+                        <?php if ($details->num_rows > 0): ?>
+                            <ul class="package-details">
+                                <?php while ($d = $details->fetch_assoc()): ?>
+                                    <li><?= htmlspecialchars($d['detail_text']) ?></li>
+                                <?php endwhile; ?>
+                            </ul>
+                        <?php endif; ?>
+
+                        <div class="edit">
+                            <button class="btn" onclick="goTo('edit', <?= $package['package_id'] ?> )">Edit</button>
+                            <button class="btn" onclick="goTo('view', <?= $package['package_id'] ?> )">View</button>
+                        </div>
+                    </div>
+                <?php endwhile; ?>
+
             </div>
 
         </div>
@@ -62,9 +124,15 @@ session_start();
 <script>
     document.querySelector(".addingHall").addEventListener("click", addHall);
 
-    function goTo(destination) {
-        if (destination == "hall") {
 
+    function goTo(destination, id) {
+        if (destination === "hall") {
+            window.location.href = "";
+
+        } else if (destination === "edit") {
+            window.location.href = "http://localhost:8081/admin/edit-package.php?id="+id;
+        } else if (destination === "view") {
+            window.location.href = "http://localhost:8081/admin/view-package.php?id="+id;
         }
     }
 

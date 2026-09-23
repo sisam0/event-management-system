@@ -19,7 +19,8 @@
     <a href="service/service.php">service</a><br>
     <a href="login.php">user login</a><br>
     <a href="admin/admin-login.php">admin login</a><br>
-    <a href="admin/user-details.php">User Details</a>
+    <a href="admin/user-details.php">User Details</a><br>
+    <a href="admin/add-packages.php">Add packages</a>
 </body>
 
 </html>
