@@ -1,0 +1,170 @@
+
+
+:root{
+    --main-font: "Dancing Script", cursive;
+    --secoundary-font: "Cormorant", serif;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    z-index: 0;
+}
+
+.parent{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 100vw;
+    font-family: var(--secoundary-font);
+    /* font-size: 20px; */
+}
+
+/* navigation bar */
+.nav-bar{
+    top: 5px;
+    text-align: right;
+    padding: 10px;
+    margin-right: 5px;
+    font-size: 20px;
+    gap: 5px;
+    width: 550px;
+    background-color: rgba(119, 0, 0, 0.8);
+    height: max-content;
+}
+.nav-contents{
+    padding: 5px;
+    font-weight: bold;
+    text-decoration: none;
+    color: rgb(252, 252, 252);
+    margin-right: 10px;
+    border-radius: 5px;
+    background-color: transparent;
+    font-family: var(--secoundary-font);
+}
+.nav-contents:hover{
+    background-color: white;
+    color: rgb(119, 0, 0, 0.8);
+    border-radius: 5px;
+}
+
+
+/*left hand side bar*/
+.contents{
+    display: flex;
+    gap: 5px;
+    width: 97%;
+    padding: 10px;
+}
+/* contents start 
+    LEFT SIDE*/
+.service-category{
+    display: flex;
+    flex-direction: column;
+    height: 450px;
+    width: 17%;
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+    gap: 3px;
+    margin-right: 15px;
+    padding: 10px;
+    background-color: rgb(119, 0, 0, 0.8);
+    position: sticky;
+    top: 0;
+}
+.name-ser{
+    padding: 10px;
+    position: sticky;
+    top: 5px;
+    border: none;
+    border-radius: 10px;
+    text-align: left;
+    background-color: beige;
+    margin-bottom: 10px;
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+    font-family: var(--secoundary-font);
+    font-size: 15px;
+    /* font-weight: 2rem; */
+}
+.name-ser:hover{
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+}
+
+.details{
+    flex: 1;
+    background-color: white;
+    z-index: 1;
+    width: 750px;
+}
+
+
+        /* for food items displayed */
+        th,
+        td {
+            padding: 4px;
+            margin-bottom: 4px;
+
+        }
+
+        .food-cols {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .food-name {
+            margin-bottom: 5px;
+        }
+
+        .food-list {
+            margin-right: 13px;
+            margin-bottom: 30px;
+
+        }
+
+        .food-list table tr:nth-child(even) {
+            background-color: beige;
+        }
+
+        .food-list table td {
+            text-align: center;
+            border-bottom: 1px solid rgb(244, 244, 119);
+            width: 250px;
+            /* border: 1px solid rgb(203, 201, 201); */
+        }
+
+        .food-list table td:first-child,
+        .food-list table td:last-child {
+            width: 80px;
+        }
+
+        .food-list table td:nth-child(2) {
+            width: 235px;
+        }
+
+#service{
+    padding: 10px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    flex-direction: column;
+    width: 960px;
+}
+.top{ 
+    padding: 10px 20px; 
+    /* border: 1px solid black; */
+    margin-bottom: 15px;
+    background-color: beige;
+}
+.each-service{
+    padding: 5px 15px;
+    border: none;
+    margin-right: 15px;
+    font-size:20px;
+    font-family: var(--secoundary-font);
+    background-color: beige;
+
+
+}
+.each-service:hover{
+    background-color: brown;
+    color: aliceblue;
+    border: none;
+    border-radius: 10px;
+}

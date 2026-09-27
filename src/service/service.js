@@ -55,18 +55,18 @@ function showService(event, hallName) {
     // alert("clicked hall is ", hallName);
     window.location.href = "/service/show-service.php?hall=" + encodeURIComponent(hallName);
 }
-    
-    // console.log(overlay)
-    // overlay.classList.remove("hidden");
-    // console.log(overlay)
-    // const img = card.querySelector("img");
-    // document.getElementById("imageCard").src = img.src;
-    // document.getElementById("cardInfo").style.display = "flex";
-    // document.getElementById("cardInfo").style.flexDirection = "column";
-    // document.body.style.overflow = "hidden";
-
 
 function closeService() {    
     overlay.classList.add("hidden");
     document.body.style.overflow = "auto";
+}
+
+function goTo(destination, id){
+    if(destination === "book-package"){
+        window.location.href = "http://localhost:8081/service/book-menu.php?package_id=" + id;
+    }
+    else if(destination === "view"){
+        window.location.href = "http://localhost:8081/service/display-menu.php";
+
+    }
 }

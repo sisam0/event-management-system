@@ -53,20 +53,16 @@ session_start();
 
             <div class="card-container">
 
+                <div class="card" style="align-items: center;">
+                    <span>Add new package!</span>
+                    <button onclick="goTo('new', 0)" class="btn">Add new package</button>
+                </div>
 
                 <?php
-                $query = " SELECT 
-        p.package_id,
-        p.name,
-        p.description,
-        p.price,
-        p.type,
-        s.ser_name,
-        h.hall_name
-    FROM packages p
-    LEFT JOIN service s ON s.service_id = p.service_id
-    LEFT JOIN hall h ON h.hall_id = p.hall_id
-";
+                $query = " SELECT p.package_id, p.name, p.description, p.price, p.type, s.ser_name, h.hall_name
+                        FROM packages p
+                        LEFT JOIN service s ON s.service_id = p.service_id
+                        LEFT JOIN hall h ON h.hall_id = p.hall_id";
                 $result = $conn->query($query);
                 ?>
 
@@ -108,7 +104,26 @@ session_start();
                                     <li><?= htmlspecialchars($d['detail_text']) ?></li>
                                 <?php endwhile; ?>
                             </ul>
-                        <?php endif; ?>
+                        <?php endif;
+                        $detail_stmt->close();
+                        ?>
+
+
+                        <?php
+                        $food_type = "select * from food_types ft 
+                        join package_food_types pf on ft.type_id = pf.type_id 
+                        where pf.package_id = ?";
+                        $ft_stmt = $conn->prepare($food_type);
+                        $ft_stmt->bind_param("i", $package['package_id']);
+                        $ft_stmt->execute();
+                        $type_details = $ft_stmt->get_result();
+
+                        ?>
+                        <ul class="package-details">
+                            <?php while ($row = $type_details->fetch_assoc()): ?>
+                                <li><?= htmlspecialchars($row['type_name']) ?></li>
+                            <?php endwhile; ?>
+                        </ul>
 
                         <div class="edit">
                             <button class="btn" onclick="goTo('edit', <?= $package['package_id'] ?> )">Edit</button>
@@ -130,9 +145,11 @@ session_start();
             window.location.href = "";
 
         } else if (destination === "edit") {
-            window.location.href = "http://localhost:8081/admin/edit-package.php?id="+id;
+            window.location.href = "http://localhost:8081/admin/edit-package.php?id=" + id;
         } else if (destination === "view") {
-            window.location.href = "http://localhost:8081/admin/view-package.php?id="+id;
+            window.location.href = "http://localhost:8081/admin/view-package.php?id=" + id;
+        } else if (destination === "new") {
+            window.location.href = "http://localhost:8081/admin/add-packages.php";
         }
     }
 

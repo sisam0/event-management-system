@@ -242,7 +242,9 @@ table{
 /*Catering menu items*/
 .menu{
     padding: 5px 20px 20px 20px;
+    width: 920px;
 }
+
 .bookBtn{
     padding: 10px 25px;
     background-color: brown;
@@ -253,10 +255,26 @@ table{
     border: none;
     z-index: 5;
     border-radius: 10px;
+    margin-right: 20px;
 }
 .menu-text{
     padding: 20px 20px 5px 20px;
 }
+
+
+
+.buttons{
+    z-index: 1000;
+    width: 100%;
+    position: sticky;
+    top: 10px;
+    background-color: white;
+    padding: 5px;
+    margin-bottom: 10px;
+}
+
+
+
 /* .menu-gallery{
     padding: 10px;
     display: flex;
@@ -294,45 +312,99 @@ table{
     color: black;
 } */
 
-/* for food items displayed */
-th,
-td{
-    padding: 4px;
-    margin-bottom: 4px;
-    
-}
-
-.food-cols{
+#package-section{
+    width: 100%;
     display: flex;
-    flex-wrap: wrap;
 }
 
-.food-name{
-    margin-bottom: 5px;
+.package-card {
+    width: 300px;
+    padding: 16px;
+    border: 1px solid rgb(225, 222, 210);
+    border-radius: 10px;
+    margin: 0;
+    text-align: left;
+    background: #fffefb;
+    box-shadow: rgba(0, 0, 0, 0.08) 0px 3px 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-left: 20px;
 }
 
-.food-list{
-    margin-right: 13px;
-    margin-bottom: 30px;
-
+.card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
 }
 
-.food-list table tr:nth-child(even){
-    background-color: beige;
+.package-type {
+    font-family: var(--secondary-font);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    background: rgb(255, 255, 159);
 }
 
-.food-list table td{
-    text-align: center;
-    border-bottom: 1px solid rgb(244, 244, 119);
-    width: 250px;
-    /* border: 1px solid rgb(203, 201, 201); */
+.type-hall {
+    background: #cfe8ff;
 }
 
-.food-list table td:first-child,
-.food-list table td:last-child{
-    width: 80px;
+.type-catering {
+    background: #ffe1c2;
 }
 
-.food-list table td:nth-child(2){
-    width: 235px;
+.type-both {
+    background: rgb(255, 255, 159);
 }
+
+.package-price {
+    font-family: var(--secondary-font);
+    font-weight: 700;
+    font-size: 16px;
+    color: #2b2b2b;
+    white-space: nowrap;
+}
+
+.package-description {
+    font-family: var(--secondary-font);
+    font-size: 14px;
+    color: #666;
+    line-height: 1.4;
+    margin: 0;
+}
+
+.package-details {
+    font-family: var(--secondary-font);
+    font-size: 13px;
+    color: #888;
+    padding: 8px 0 0 18px;
+    margin: 0;
+    border-top: 1px dashed #ddd;
+}
+
+.package-details li {
+    margin-bottom: 2px;
+}
+
+.card .btn {
+    margin-top: 6px;
+    padding: 8px 0;
+    width: 100%;
+    font-size: 14px;
+}
+
+.btn {
+    padding: 10px 50px;
+    border: none;
+    border-radius: 10px;
+    background-color: rgb(255, 255, 159);
+    cursor: pointer;
+    margin-top: 5px;
+    font-family: var(--secondary-font);
+    font-size: larger;
+}
+
