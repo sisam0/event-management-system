@@ -47,11 +47,9 @@ if ($row) {
             $stmt->execute();
             $booking_id = $conn->insert_id;
 
-             //to check if we want to direct to the menu list or not 
-            if($needed_ser == 'yes'){
+            //to check if we want to direct to the menu list or not 
+            if ($needed_ser == 'yes') {
                 $_SESSION['directed_from_halls'] = true;
-                
-
             }
 
             // Insert into booking_service table
@@ -70,7 +68,7 @@ if ($row) {
             $_SESSION["booked"] = true;
             $booked = true;
 
-            if($stmt && $_SESSION['directed_from_halls'] == true){
+            if ($stmt && $_SESSION['directed_from_halls'] == true) {
                 //then go to the different page to book menus
 
             }
@@ -98,7 +96,7 @@ if ($row) {
         <div class="parent">
 
             <div id="cardInfo">
-                
+
                 <div class="top-info">
                     <button class="bookBtn" id="bookBtn">Book hall!</button>
                     <h1 style="text-align: center;" class="main-close"><?php echo $hallName; ?></h1>
@@ -194,13 +192,14 @@ if ($row) {
 
                         <div class="form-group">
                             <label>Do you want to book catering services for that day?:</label>
-                            <div><input type="checkbox" name="needed-ser" value="yes">Yes 
-                                <input type="checkbox" name="needed-ser" value="no">No</div>
+                            <div class="radio-group"><input type="checkbox" name="needed-ser" value="yes" required>Yes
+                                <input type="checkbox" name="needed-ser" value="no">No
+                            </div>
                         </div>
 
                         <div class="form-group">
                             <label>Special Requests (Optional):</label>
-                            <textarea name="message" id="message" rows="3" class="book-input" ></textarea>
+                            <textarea name="message" id="message" rows="3" class="book-input"></textarea>
                         </div>
 
                         <div class="form-group">
@@ -213,17 +212,85 @@ if ($row) {
                             <input type="number" class="book-input" name="guest_count">
                         </div>
 
-                        <button type="submit" class="submit-btn" name="confirmBtn">Book!</button>
+                        <button type="submit" id="submit-btn" class="submit-btn" name="confirmBtn">Book!</button>
 
                     </form>
                 </div>
 
+                <div class="book-popup-catering" style="display: none;">
+                    <div id="package-section">
+                        <span class="close-book close" onclick="closeBooking()">&times;</span>
+                        <h2>Select a menu package!</h2>
+                        <?php
+                        $query = "SELECT p.package_id, p.name, p.description, p.price, p.type
+                                        FROM packages p WHERE p.type = 'catering'";
+                        $stmt = $conn->prepare($query);
+                        $stmt->execute();
+                        $result = $stmt->get_result();
+                        $stmt->close();
+                        ?>
+
+                        <?php while ($package = $result->fetch_assoc()): ?>
+                            <?php
+                            $detail_query = "SELECT dt.detail_text FROM package_details pd
+                                            JOIN detail dt ON dt.detail_id = pd.detail_id
+                                            WHERE pd.package_id = ? LIMIT 2";
+                            $detail_stmt = $conn->prepare($detail_query);
+                            $detail_stmt->bind_param("i", $package['package_id']);
+                            $detail_stmt->execute();
+                            $details = $detail_stmt->get_result();
+                            ?>
+
+                            <div class="package-card">
+                                <div class="card-top">
+                                    <span class="package-type type-<?= strtolower(htmlspecialchars($package['type'])) ?>">
+                                        <?= htmlspecialchars($package['type']) ?>
+                                    </span>
+                                    <span class="package-price">Rs. <?= number_format($package['price']) ?></span>
+                                </div>
+
+                                <h3><?= htmlspecialchars($package['name']) ?></h3>
+                                <p class="package-description"><?= htmlspecialchars($package['description']) ?></p>
+
+                                <?php if ($details->num_rows > 0): ?>
+                                    <ul class="package-details">
+                                        <?php while ($d = $details->fetch_assoc()): ?>
+                                            <li><?= htmlspecialchars($d['detail_text']) ?></li>
+                                        <?php endwhile; ?>
+                                    </ul>
+                                <?php endif;
+                                $detail_stmt->close();
+                                ?>
+
+                                <?php
+                                $food_type = "SELECT ft.type_name FROM food_types ft
+                                                JOIN package_food_types pf ON ft.type_id = pf.type_id
+                                                WHERE pf.package_id = ?";
+                                $ft_stmt = $conn->prepare($food_type);
+                                $ft_stmt->bind_param("i", $package['package_id']);
+                                $ft_stmt->execute();
+                                $type_details = $ft_stmt->get_result();
+                                ?>
+                                <ul class="package-details">
+                                    <?php while ($row = $type_details->fetch_assoc()): ?>
+                                        <li><?= htmlspecialchars($row['type_name']) ?></li>
+                                    <?php endwhile;
+                                    $ft_stmt->close();
+                                    ?>
+                                </ul>
+
+                                <div class="edit">
+                                    <button class="btn" onclick="goTo('book-package', <?= $package['package_id'] ?>)">Book Package</button>
+                                </div>
+                            </div>
+                        <?php endwhile; ?>
+                    </div>
+                </div>
 
                 <!-- success ko pop up  -->
                 <div class="success-popup" id="successPopup" style="<?php echo $booked ? 'display:block;' : 'display:none;'; ?>">
 
                     <span class="close-book close" onclick="closeBooking()">&times;</span>
-
                     <h2>You successfully booked the venue!</h2>
                     <p>Your booking has been submitted successfully.</p>
                 </div>

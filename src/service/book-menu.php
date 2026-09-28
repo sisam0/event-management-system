@@ -2,6 +2,12 @@
 session_start();
 include 'connect2.php';
 
+if (!isset($_SESSION['user_id'])) {
+    $_SESSION['redirect_after_login'] = $_SERVER['REQUEST_URI'];
+    header("Location: http://localhost:8081/login.php");
+    exit();
+}
+
 $package_id = isset($_GET['package_id']) ? (int) $_GET['package_id'] : 0;
 
 // if ($package_id <= 0) {

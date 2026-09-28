@@ -231,3 +231,171 @@ body {
 .selected-date {
     background-color: rgba(139, 69, 19, 0.35) !important;
 }
+
+/* for the menu packages to be displayed */
+
+/* ---------- Catering popup ---------- */
+.book-popup-catering h2 {
+    text-align: center;
+    color: brown;
+    font-family: var(--main-font);
+    font-size: 2.2rem;
+    margin: 0 0 20px;
+}
+
+/* widen the white card when catering is showing */
+.bookCard.catering-mode {
+    max-width: 1000px;
+    max-height: 85vh;
+    overflow-y: auto;
+}
+
+/* cards sit in a row and wrap on smaller screens */
+#package-section {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+#package-section > h2 {
+    width: 100%;
+}
+
+.package-card {
+    width: 300px;
+    padding: 16px;
+    border: 1px solid rgb(225, 222, 210);
+    border-radius: 10px;
+    text-align: left;
+    background: #fffefb;
+    box-shadow: rgba(0, 0, 0, 0.08) 0px 3px 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.package-card:hover {
+    transform: translateY(-3px);
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 8px 18px;
+}
+
+.package-card h3 {
+    margin: 0;
+    font-family: var(--secondary-font);
+    font-size: 1.5rem;
+    color: brown;
+}
+
+.card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+.package-type {
+    font-family: var(--secondary-font);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    background: rgb(255, 255, 159);
+}
+
+.type-hall     { background: #cfe8ff; }
+.type-catering { background: #ffe1c2; }
+.type-both     { background: rgb(255, 255, 159); }
+
+.package-price {
+    font-family: var(--secondary-font);
+    font-weight: 700;
+    font-size: 16px;
+    color: #2b2b2b;
+    white-space: nowrap;
+}
+
+.package-description {
+    font-family: var(--secondary-font);
+    font-size: 15px;
+    color: #666;
+    line-height: 1.4;
+    margin: 0;
+}
+
+.package-details {
+    font-family: var(--secondary-font);
+    font-size: 14px;
+    color: #888;
+    padding: 8px 0 0 18px;
+    margin: 0;
+    border-top: 1px dashed #ddd;
+}
+
+.package-details li {
+    margin-bottom: 2px;
+}
+
+/* push the button to the bottom so all cards line up */
+.package-card .edit {
+    margin-top: auto;
+}
+
+.package-card .btn {
+    width: 100%;
+    padding: 8px 0;
+    font-size: 16px;
+}
+
+.btn {
+    padding: 10px 50px;
+    border: none;
+    border-radius: 10px;
+    background-color: rgb(255, 255, 159);
+    cursor: pointer;
+    margin-top: 5px;
+    font-family: var(--secondary-font);
+    font-size: larger;
+    transition: background-color 0.2s ease;
+}
+
+.btn:hover {
+    background-color: brown;
+    color: white;
+}
+
+/* ---------- Yes / No radios in the booking form ---------- */
+.radio-group {
+    display: flex;
+    gap: 12px;
+}
+
+.radio-group label {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-bottom: 0;
+}
+
+.radio-group input[type="radio"] {
+    accent-color: brown;
+}
+
+.radio-group label:has(input:checked) {
+    background: rgb(255, 255, 159);
+    border-color: brown;
+}
+
+/* close button inside the catering popup */
+.book-popup-catering .close-book {
+    z-index: 5;
+}

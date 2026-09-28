@@ -97,6 +97,11 @@ function closeBooking() {
     const overlay = document.getElementById("book-overlay");
     if (overlay) overlay.classList.remove("active");
     document.body.style.overflow = "auto";
+
+    if (justBooked) {
+        justBooked = false;
+        window.location.reload();
+    }
 }
 
 function closeService() {
@@ -116,4 +121,54 @@ function closeFullView() {
     const view = document.getElementById("full-image-view");
     if (view) view.style.display = "none";
     document.body.style.overflow = "auto";
+}
+
+
+//to display the catering part if they also want a catering for that dya
+let justBooked = false;
+
+document.addEventListener("DOMContentLoaded", () => {
+    const form = document.getElementById("bookingForm");
+    if (form) form.addEventListener("submit", addCateringOrNot);
+});
+
+async function addCateringOrNot(e) {
+    e.preventDefault();
+    const form = e.target;
+    if (!selectedDate) {
+        alert("Please select a date first.");
+        return;
+    }
+
+    const choice = form.querySelector('input[name="needed-ser"]:checked');
+    if (!choice) {
+        alert("Please choose whether you want catering.");
+        return;
+    }
+    const wantsCatering = choice.value === "yes";
+
+    const formData = new FormData(form);
+    formData.append("confirmBtn", "1"); // PHP checks isset($_POST['confirmBtn'])
+
+    try {
+        const response = await fetch(window.location.href, {
+            method: "POST",
+            body: formData
+        });
+        if (!response.ok) throw new Error("Booking failed");
+
+        justBooked = true;
+
+        document.getElementById("bookingPopup").style.display = "none";
+
+        if (wantsCatering) {
+            document.querySelector(".bookCard").classList.add("catering-mode");
+            document.querySelector(".book-popup-catering").style.display = "block";
+        } else {
+            document.getElementById("successPopup").style.display = "block";
+        }
+    } catch (error) {
+        console.error(error);
+        alert("Something went wrong while booking. Please try again.");
+    }
 }
