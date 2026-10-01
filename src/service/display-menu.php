@@ -19,13 +19,12 @@ include 'connect2.php';
     <link rel="stylesheet" href="display-menu.css">
 
 <body>
-
     <div class="parent">
         <div class="nav-bar">
-            <a class="nav-contents">About</a>
-            <a class="nav-contents">Gallery</a>
-            <a class="nav-contents">Services</a>
-            <a class="nav-contents">Contact</a>
+            <a class="nav-contents" href="http://localhost:8081/homepg.php#about">About</a>
+            <a class="nav-contents" href="http://localhost:8081/homepg.php#gallery">Gallery</a>
+            <a class="nav-contents" href="http://localhost:8081/service/service.php">Services</a>
+            <a class="nav-contents" href="http://localhost:8081/homepg.php#footer">Contact</a>
             <a class="nav-contents" href="http://localhost:8081/login.php" style="display:<?php echo isset($_SESSION['isLoggedin']) ? 'none' : 'inline-block'; ?>">Login</a>
             <a href="ser-logout.php" class="nav-contents" style="display:<?php echo isset($_SESSION['isLoggedin']) ? 'inline-block' : 'none'; ?>">Log out</a>
             <?php if (isset($_SESSION['isLoggedin']) && !empty($_SESSION['userPic'])): ?>
@@ -37,15 +36,15 @@ include 'connect2.php';
 
         <div class="contents">
             <div class="service-category">
-                <button class="name-ser" data-section="service" onclick="showMainSection('service', this)">Services</button>
-                <button class="name-ser" data-section="package" onclick="showMainSection('package', this)">Packages</button>
+                <button class="name-ser" onclick="window.open('http://localhost:8081/service/service.php')">Services</button>
+                <button class="name-ser" onclick="window.open('http://localhost:8081/service/service.php?isPackage=true')">Packages</button>
             </div>
 
             <div class="details">
                 <div id="service" class="main-section">
                     <div class="top">
-                        <button onclick="displayServiceSection('hall', this)" class="each-service">Hall</button>
-                        <button onclick="displayServiceSection('catering', this)" class="each-service">Catering</button>
+                        <button onclick="window.open('http://localhost:8081/service/service.php?isService=true&isHall=true')" class="each-service">Hall</button>
+                        <button onclick="window.open('http://localhost:8081/service/service.php?isService=true&isCatering=true')" class="each-service">Catering</button>
                     </div>
 
                     <div class="service-info">

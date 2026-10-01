@@ -1,6 +1,37 @@
 // for navigating main sections
-showMainSection("service");
-showSection("hall",null);
+
+
+document.addEventListener("DOMContentLoaded", () => {
+    const params = new URLSearchParams(window.location.search);
+
+    const isHall = params.get("isHall");
+    const isCatering = params.get("isCatering");
+    const isService = params.get("isService");
+    const isPackage = params.get("isPackage");
+
+    if( isService && isHall){
+        //show service section and hall sub-section
+        showMainSection("service");
+        showSection("hall",null);
+    }
+    else if(isService && isCatering){
+        //show service section and catering sub-section
+        showMainSection("service");
+        showSection("catering",null);        
+    }
+    else if(isPackage){
+        //show only packae section
+        showMainSection("package");
+    }
+    else{
+        //normal loading the just show hall
+        showMainSection("service");
+        showSection("hall",null);
+    }
+
+
+})
+
 //for dark background behind the popup screen of services
 const overlay = document.getElementById("bg-overlay");
 // Hide on page load

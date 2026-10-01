@@ -47,8 +47,8 @@ $msg = "";
 
         <div class="contents">
             <div class="service-names">
-                <button class="name" onclick="showService('hall',this)">Hall</button>
-                <button class="name" onclick="showService('catering',this)">Catering</button>
+                <button class="tab-btn name" data-tab="hall" onclick="showService('hall', this)">Hall Bookings</button>
+                <button class="tab-btn name" data-tab="catering" onclick="showService('catering', this)">Catering</button>
                 <a class="name" href="packages.php">Package</a>
                 <!-- <span class="name" id="hall">Hall</span>
                 <span class="name" id="catering">Catering</span> -->
@@ -111,8 +111,6 @@ $msg = "";
                 </div>
 
                 <div id="catering" class="service">
-
-
                     <div class="menu">
 
                         <div class="food-cols">

@@ -2,6 +2,11 @@ let selectedDate = null;
 let selectedDayEl = null;
 let unavailableDates = [];
 
+const stripe = Stripe("pk_test_51TPznPEPFzNtpaUAvyHCj4vgYUnAr1BDGgzmhUUyQa0d7QpB67fX7dfuzMAWEiwyPT0YT3G6N2OTnmTzsQBp93uM00hiLVxX6W");
+let elements;
+let bookingData = {};
+let packageId = null;
+
 document.addEventListener("DOMContentLoaded", () => {
     const bookBtn = document.getElementById("bookBtn");
     const calendarEl = document.getElementById("calendar");
@@ -16,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
             start: new Date().toISOString().split("T")[0]
         },
 
-        dateClick: function(info) {
+        dateClick: function (info) {
             if (unavailableDates.includes(info.dateStr)) {
                 alert("This date is unavailable.");
                 return;
@@ -52,7 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
         .catch(error => console.error(error));
 
     if (bookBtn) {
-        bookBtn.addEventListener("click", function() {
+        bookBtn.addEventListener("click", function () {
             if (!selectedDate) {
                 alert("Please select a date first.");
                 return;
@@ -61,8 +66,14 @@ document.addEventListener("DOMContentLoaded", () => {
             showBookingPopup();
         });
     }
+
+    // payment setup
+    document.getElementById("bookingForm").addEventListener("submit", onFormSubmit);
+    document.querySelector(".stripePayment").style.display = "none";
+    document.querySelector("#totalAmt button").addEventListener("click", startPayment);
 });
 
+// to show first pop up
 function showBookingPopup() {
     const overlay = document.getElementById("book-overlay");
     const serviceId = document.getElementById("service_id");
@@ -97,11 +108,6 @@ function closeBooking() {
     const overlay = document.getElementById("book-overlay");
     if (overlay) overlay.classList.remove("active");
     document.body.style.overflow = "auto";
-
-    if (justBooked) {
-        justBooked = false;
-        window.location.reload();
-    }
 }
 
 function closeService() {
@@ -123,52 +129,86 @@ function closeFullView() {
     document.body.style.overflow = "auto";
 }
 
-
-//to display the catering part if they also want a catering for that dya
-let justBooked = false;
-
-document.addEventListener("DOMContentLoaded", () => {
-    const form = document.getElementById("bookingForm");
-    if (form) form.addEventListener("submit", addCateringOrNot);
-});
-
-async function addCateringOrNot(e) {
+// ---------- booking form submitted: save data only, no database insert ----------
+function onFormSubmit(e) {
     e.preventDefault();
     const form = e.target;
+    const choice = form.querySelector('input[name="needed-ser"]:checked');
+
     if (!selectedDate) {
         alert("Please select a date first.");
         return;
     }
-
-    const choice = form.querySelector('input[name="needed-ser"]:checked');
     if (!choice) {
         alert("Please choose whether you want catering.");
         return;
     }
-    const wantsCatering = choice.value === "yes";
 
-    const formData = new FormData(form);
-    formData.append("confirmBtn", "1"); // PHP checks isset($_POST['confirmBtn'])
+    bookingData = {
+        hall_id: form.service_id.value,
+        booking_date: selectedDate,
+        guest_count: form.guest_count.value,
+        message: form.message.value
+    };
+    packageId = null;
 
-    try {
-        const response = await fetch(window.location.href, {
-            method: "POST",
-            body: formData
-        });
-        if (!response.ok) throw new Error("Booking failed");
+    document.getElementById("bookingPopup").style.display = "none";
 
-        justBooked = true;
-
-        document.getElementById("bookingPopup").style.display = "none";
-
-        if (wantsCatering) {
-            document.querySelector(".bookCard").classList.add("catering-mode");
-            document.querySelector(".book-popup-catering").style.display = "block";
-        } else {
-            document.getElementById("successPopup").style.display = "block";
-        }
-    } catch (error) {
-        console.error(error);
-        alert("Something went wrong while booking. Please try again.");
+    if (choice.value === "yes") {
+        document.querySelector(".bookCard").classList.add("catering-mode");
+        document.querySelector(".book-popup-catering").style.display = "block";
+    } else {
+        showTotal(Number(document.getElementById("hall-price").value));
     }
+}
+
+// ---------- catering package chosen ----------
+function showAmt(id, price) {
+    packageId = id;
+    document.querySelector(".book-popup-catering").style.display = "none";
+    document.querySelector(".bookCard").classList.remove("catering-mode");
+    showTotal(Number(document.getElementById("hall-price").value) + Number(price));
+}
+
+// ---------- total block (display only, server recalculates the real amount) ----------
+function showTotal(total) {
+    const box = document.getElementById("totalAmt");
+    box.querySelector("h2").textContent = "Your total amount will be Rs. " + total;
+    box.querySelector("h1").textContent = "Rs. " + total * 0.2;
+    box.style.display = "block";
+}
+
+// ---------- Pay clicked: ask server for a Stripe payment, then show the card form ----------
+async function startPayment() {
+    this.style.display = "none";
+    const stripeBox = document.querySelector(".stripePayment");
+    stripeBox.style.display = "block";
+
+    const res = await fetch("checkout.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...bookingData, package_id: packageId })
+    });
+    const data = await res.json();
+    if (data.error) return alert(data.error);
+
+    stripeBox.innerHTML = `
+        <form id="payment-form">
+            <div id="payment-element"></div>
+            <button type="submit">Pay now</button>
+            <div id="payment-message"></div>
+        </form>`;
+
+    elements = stripe.elements({ clientSecret: data.clientSecret });
+    elements.create("payment").mount("#payment-element");
+
+    document.getElementById("payment-form").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const { error } = await stripe.confirmPayment({
+            elements,
+            confirmParams: { return_url: new URL("checkout.php", window.location.href).href }
+        });
+        // only reached if payment failed (success redirects to payment.php)
+        document.getElementById("payment-message").textContent = error.message;
+    });
 }

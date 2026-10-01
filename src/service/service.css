@@ -315,10 +315,11 @@ table{
 #package-section{
     width: 100%;
     display: flex;
+    flex-wrap: wrap;
 }
 
 .package-card {
-    width: 300px;
+    width: 250px;
     padding: 16px;
     border: 1px solid rgb(225, 222, 210);
     border-radius: 10px;
@@ -330,6 +331,7 @@ table{
     flex-direction: column;
     gap: 8px;
     margin-left: 20px;
+    margin-bottom: 20px;
 }
 
 .card-top {
@@ -405,6 +407,27 @@ table{
     cursor: pointer;
     margin-top: 5px;
     font-family: var(--secondary-font);
-    font-size: larger;
 }
 
+/* display packages  */
+.card-pkg {
+    width: 250px;
+    padding: 16px;
+    border: 1px solid rgb(225, 222, 210);
+    border-radius: 10px;
+    margin: 0; /* was margin-left/margin-bottom — now handled by gap on the container */
+    text-align: left;
+    background: #fffefb;
+    box-shadow: rgba(0, 0, 0, 0.08) 0px 3px 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-left: 30px;
+    margin-bottom: 20px;
+}
+
+.card-container{
+    width: 950px;
+    display: flex;
+    flex-wrap: wrap;
+}

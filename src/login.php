@@ -119,7 +119,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             align-items: center;
             justify-content: center;
             width: 1280px;
-            background: url(bg-login.jpg);
+            background: url(login-bg.jpg);
             background-position: center;
             background-size: cover;
             background-repeat: no-repeat;
@@ -180,13 +180,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
 
     <?php
-    
-    if(isset($_SESSION['redirect_after_login'])){
-        ?>
+
+    if (isset($_SESSION['redirect_after_login'])) {
+    ?>
         <script>
             alert("You need to login first!");
         </script>
-        <?php
+    <?php
     }
 
     ?>

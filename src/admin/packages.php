@@ -44,8 +44,8 @@ session_start();
 
         <div class="contents">
             <div class="service-names">
-                <button class="name" onclick="goTo('hall')">Hall</button>
-                <button class="name" onclick="goTo('catering')">Catering</button>
+                <button class="name" onclick="window.location.href='http://localhost:8081/admin/admin.php?tab=hall">Hall</button>
+                <button class="name" onclick="window.location.href='http://localhost:8081/admin/admin.php?tab=catering'">Catering</button>
                 <button class="name" style="background-color: rgb(255, 255, 159);">Package</button>
                 <!-- <span class="name" id="hall">Hall</span>
                 <span class="name" id="catering">Catering</span> -->
@@ -141,10 +141,7 @@ session_start();
 
 
     function goTo(destination, id) {
-        if (destination === "hall") {
-            window.location.href = "";
-
-        } else if (destination === "edit") {
+        if (destination === "edit") {
             window.location.href = "http://localhost:8081/admin/edit-package.php?id=" + id;
         } else if (destination === "view") {
             window.location.href = "http://localhost:8081/admin/view-package.php?id=" + id;

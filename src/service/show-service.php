@@ -2,6 +2,7 @@
 session_start();
 include 'connect2.php';
 
+
 if (!isset($_SESSION['user_id'])) {
     $_SESSION['redirect_after_login'] = $_SERVER['REQUEST_URI'];
     header("Location: http://localhost:8081/login.php");
@@ -26,53 +27,56 @@ if ($row) {
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-        // to confirm booking 
-        if (isset($_POST['confirmBtn'])) {
-            $user_id = $_SESSION['user_id'];
-            $service_id = $_POST['service_id'];
-            $booking_date = $_POST['booking_date'];
-            $message = $_POST['message'];
-            $guest_count = $_POST['guest_count'];
-            $needed_ser = $_POST['needed-ser'];
+        // // to confirm booking 
+        // if (isset($_POST['confirmBtn'])) {
+        //     $user_id = $_SESSION['user_id'];
+        //     $service_id = $_POST['service_id'];
+        //     $booking_date = $_POST['booking_date'];
+        //     $message = $_POST['message'];
+        //     $guest_count = $_POST['guest_count'];
+        //     $needed_ser = $_POST['needed-ser'];
 
-            // echo $service_id;
-            // Calculate total
-            $total = $price;
+        //     // echo $service_id;
+        //     // Calculate total
+        //     $total = $price;
 
-            // Insert into booking table
-            $booking_query = "INSERT INTO booking (user_id, date, guest_count, status, message, total) 
-                          VALUES (?, ?, ?, 'pending', ?, ?)";
-            $stmt = $conn->prepare($booking_query);
-            $stmt->bind_param("isisi", $user_id, $booking_date, $guest_count, $message, $total);
-            $stmt->execute();
-            $booking_id = $conn->insert_id;
+        //     // Insert into booking table
+        //     $booking_query = "INSERT INTO booking (user_id, date, guest_count, status, message, total) 
+        //                   VALUES (?, ?, ?, 'pending', ?, ?)";
+        //     $stmt = $conn->prepare($booking_query);
+        //     $stmt->bind_param("isisi", $user_id, $booking_date, $guest_count, $message, $total);
+        //     $stmt->execute();
+        //     $booking_id = $conn->insert_id;
 
-            //to check if we want to direct to the menu list or not 
-            if ($needed_ser == 'yes') {
-                $_SESSION['directed_from_halls'] = true;
-            }
+        //     //to check if we want to direct to the menu list or not 
+        //     if ($needed_ser == 'yes') {
+        //         $_SESSION['directed_from_halls'] = true;
+        //     }
 
-            // Insert into booking_service table
-            $booking_service_query = "INSERT INTO booking_service (booking_id, service_id, price, date) 
-                                  VALUES (?, ?, ?, ?)";
-            $stmt = $conn->prepare($booking_service_query);
-            $stmt->bind_param("iiis", $booking_id, $service_id, $price, $booking_date);
-            $stmt->execute();
+        //     // Insert into booking_service table
+        //     $booking_service_query = "INSERT INTO booking_service (booking_id, service_id, price, date) 
+        //                           VALUES (?, ?, ?, ?)";
+        //     $stmt = $conn->prepare($booking_service_query);
+        //     $stmt->bind_param("iiis", $booking_id, $service_id, $price, $booking_date);
+        //     $stmt->execute();
 
-            // Insert into unavailable table to mark date as unavailable
-            $unavailable_query = "INSERT INTO unavailable (service_id, date) VALUES (?, ?)";
-            $stmt = $conn->prepare($unavailable_query);
-            $stmt->bind_param("is", $service_id, $booking_date);
-            $stmt->execute();
+        //     // Insert into unavailable table to mark date as unavailable
+        //     // $unavailable_query = "INSERT INTO unavailable (service_id, date) VALUES (?, ?)";
+        //     // $stmt = $conn->prepare($unavailable_query);
+        //     // $stmt->bind_param("is", $service_id, $booking_date);
+        //     // $stmt->execute();
 
-            $_SESSION["booked"] = true;
-            $booked = true;
+        //     $_SESSION["booked"] = true;
+        //     $booked = true;
 
-            if ($stmt && $_SESSION['directed_from_halls'] == true) {
-                //then go to the different page to book menus
+        //     //for checkout.php
+        //     $hall_array = ["name" => ""];
 
-            }
-        }
+        //     if ($stmt && $_SESSION['directed_from_halls'] == true) {
+        //         //then go to the different page to book menus
+
+        //     }
+        // }
     }
 ?>
 
@@ -147,6 +151,8 @@ if ($row) {
                             $hallPhoto = $get->get_result();
                             $i = 1;
 
+                            $totalAmt =  $row['price'];
+
                             while ($pic = $hallPhoto->fetch_assoc()) {
                             ?>
                                 <img class="imageCard" height="225px" width="340px" src="<?php echo "/" . $pic['photo']; ?>" onclick="fullView(this.src)">
@@ -172,6 +178,7 @@ if ($row) {
             <!-- $row ends here  -->
         <?php } ?>
 
+        <!-- pop up starts here  -->
 
         <div class="book-overlay<?php echo $booked ? ' active' : ''; ?>" id="book-overlay">
             <div class="bookCard">
@@ -192,8 +199,8 @@ if ($row) {
 
                         <div class="form-group">
                             <label>Do you want to book catering services for that day?:</label>
-                            <div class="radio-group"><input type="checkbox" name="needed-ser" value="yes" required>Yes
-                                <input type="checkbox" name="needed-ser" value="no">No
+                            <div class="radio-group"><input type="radio" name="needed-ser" value="yes" required>Yes
+                                <input type="radio" name="needed-ser" value="no">No
                             </div>
                         </div>
 
@@ -204,7 +211,7 @@ if ($row) {
 
                         <div class="form-group">
                             <label>Total Price:</label>
-                            <div>Rs. <input type="number" class="book-input" name="price" value="<?php echo $price; ?>" readonly></div>
+                            <div>Rs. <input type="number" id="hall-price" class="book-input" name="price" value="<?php echo $price; ?>" readonly></div>
                         </div>
 
                         <div class="form-group">
@@ -212,11 +219,12 @@ if ($row) {
                             <input type="number" class="book-input" name="guest_count">
                         </div>
 
-                        <button type="submit" id="submit-btn" class="submit-btn" name="confirmBtn">Book!</button>
+                        <button type="submit" id="submit-btn" class="submit-btn" name="confirmBtn">Next</button>
 
                     </form>
                 </div>
 
+                <!-- pop up sarts  -->
                 <div class="book-popup-catering" style="display: none;">
                     <div id="package-section">
                         <span class="close-book close" onclick="closeBooking()">&times;</span>
@@ -239,6 +247,9 @@ if ($row) {
                             $detail_stmt->bind_param("i", $package['package_id']);
                             $detail_stmt->execute();
                             $details = $detail_stmt->get_result();
+                            $packageId = $package['package_id'];
+                            $packagePrice = $package['price'];
+
                             ?>
 
                             <div class="package-card">
@@ -280,19 +291,31 @@ if ($row) {
                                 </ul>
 
                                 <div class="edit">
-                                    <button class="btn" onclick="goTo('book-package', <?= $package['package_id'] ?>)">Book Package</button>
+                                    <button class="btn" onclick="showAmt(<?php echo $packageId; ?>,<?php echo $packagePrice; ?>)">Book Package</button>
                                 </div>
                             </div>
                         <?php endwhile; ?>
                     </div>
                 </div>
 
-                <!-- success ko pop up  -->
-                <div class="success-popup" id="successPopup" style="<?php echo $booked ? 'display:block;' : 'display:none;'; ?>">
+                <div class="total" id="totalAmt" style="display: none;">
 
-                    <span class="close-book close" onclick="closeBooking()">&times;</span>
-                    <h2>You successfully booked the venue!</h2>
-                    <p>Your booking has been submitted successfully.</p>
+                    <div class="top" style="display: flex; justify-content:space-between;">
+                        <div></div>
+                        <div>
+                            <h2>Your total amount will be Rs. <?php echo $totalAmt; ?></h2>
+                        </div>
+                        <div><span class="close-book close" onclick="closeBooking()">&times;</span></div>
+                    </div>
+                    <span>you will have to pay minimum 20% as an advance to confirm your booking. <br>
+                        <h1>Rs. <?php echo 0.2 * $totalAmt; ?></h1>
+                        You will have to pay using Stripe!
+                    </span>
+                    <button type="button" id="pay">Pay</button>
+                </div>
+
+                <div class="stripePayment" style="display: none;overflow-y: auto;">
+
                 </div>
 
             </div>
@@ -306,8 +329,9 @@ if ($row) {
         <!-- for calnder -->
         <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.18/index.global.min.js"></script>
 
-
+        <script src="https://js.stripe.com/v3/"></script>
         <script src="show-service.js"></script>
+
     </body>
 
     </html>

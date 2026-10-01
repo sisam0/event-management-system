@@ -75,24 +75,16 @@ $food_stmt->close();
 
 <body>
     <div class="parent">
-        <!-- <div class="nav-bar">
-            <a class="nav-contents">About</a>
-            <a class="nav-contents">Gallery</a>
-            <a class="nav-contents">Services</a>
-            <a class="nav-contents">Contact</a>
-            <a class="nav-contents" href="http://localhost:8081/login.php" style="display:<?php echo isset($_SESSION['isLoggedin']) ? 'none' : 'inline-block'; ?>">Login</a>
-            <a href="ser-logout.php" class="nav-contents" style="display:<?php echo isset($_SESSION['isLoggedin']) ? 'inline-block' : 'none'; ?>">Log out</a>
-        </div> -->
 
         <div class="detail-wrap">
-            <a href="service.php" class="back-link"><i class="fa-solid fa-arrow-left"></i> Back to packages</a>
+            <a href="http://localhost:8081/service/service.php?isService=true&isCatering=true" class="back-link"><i class="fa-solid fa-arrow-left"></i> Back to packages</a>
 
             <div class="detail-card">
                 <div class="detail-top">
                     <span class="package-type type-<?= strtolower(htmlspecialchars($package['type'])) ?>">
                         <?= htmlspecialchars($package['type']) ?>
                     </span>
-                    <span class="detail-price">Rs. <?= number_format($package['price']) ?></span>
+                    <span id="price" class="detail-price">Rs. <?= number_format($package['price']) ?></span>
                 </div>
 
                 <h1><?= htmlspecialchars($package['name']) ?></h1>
@@ -120,6 +112,7 @@ $food_stmt->close();
                                 <li><?= htmlspecialchars($d['detail_text']) ?></li>
                             <?php endwhile; ?>
                         </ul>
+
                     </div>
                 <?php endif; ?>
 
@@ -134,15 +127,17 @@ $food_stmt->close();
                     </div>
                 <?php endif; ?>
 
-                <form action="book-package.php" method="GET" class="book-form">
+                <form action="stripe-payment.php" method="POST" class="book-form">
                     <input type="hidden" name="package_id" value="<?= (int) $package['package_id'] ?>">
-                    <button type="submit" class="btn book-btn">Book This Package</button>
+                    <button type="submit" id="payment-form" class="btn book-btn">Book This Package</button>
                 </form>
             </div>
         </div>
     </div>
 
-    <script src="book-menu.js"></script>
+
+    <script src="https://js.stripe.com/v3/"></script>
+
 </body>
 
 </html>

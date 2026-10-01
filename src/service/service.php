@@ -170,16 +170,84 @@ session_start();
 
                 <div id="package" class="main-section">
                     <div class="service-info">
-                        <div class="card hall-card">
-                            <img src="venue.jpg" alt="" width="400px">
-                            <h3>Golden Package</h3>
-                            <p>Includes Sagarmatha hall and menu for 600 guests!</p>
+                        <div class="card-container">
+
+                            <?php
+                            $query = " SELECT p.package_id, p.name, p.description, p.price, p.type, s.ser_name, h.hall_name
+                        FROM packages p
+                        LEFT JOIN service s ON s.service_id = p.service_id
+                        LEFT JOIN hall h ON h.hall_id = p.hall_id";
+                            $result = $conn->query($query);
+                            ?>
+
+                            <?php while ($package = $result->fetch_assoc()): ?>
+                                <?php
+                                $detail_query = "SELECT dt.detail_text FROM package_details pd
+                        JOIN detail dt ON dt.detail_id = pd.detail_id
+                        WHERE pd.package_id = ? LIMIT 2 ";
+
+                                $detail_stmt = $conn->prepare($detail_query);
+                                $detail_stmt->bind_param("i", $package['package_id']);
+                                $detail_stmt->execute();
+                                $details = $detail_stmt->get_result();
+                                ?>
+
+                                <div class="card-pkg">
+                                    <div class="card-top">
+                                        <span class="package-type type-<?= strtolower(htmlspecialchars($package['type'])) ?>">
+                                            <?= htmlspecialchars($package['type']) ?>
+                                        </span>
+                                        <span class="package-price">Rs. <?= number_format($package['price']) ?></span>
+                                    </div>
+
+                                    <h3><?= htmlspecialchars($package['name']) ?></h3>
+                                    <p class="package-description"><?= htmlspecialchars($package['description']) ?></p>
+
+                                    <div class="package-meta">
+                                        <?php if ($package['hall_name']): ?>
+                                            <span><i class="fa-solid fa-building-columns"></i><?= htmlspecialchars($package['hall_name']) ?></span>
+                                        <?php endif; ?>
+                                        <?php if ($package['ser_name']): ?>
+                                            <span><i class="fa-solid fa-utensils"></i> <?= htmlspecialchars($package['ser_name']) ?></span>
+                                        <?php endif; ?>
+                                    </div>
+
+                                    <?php if ($details->num_rows > 0): ?>
+                                        <ul class="package-details">
+                                            <?php while ($d = $details->fetch_assoc()): ?>
+                                                <li><?= htmlspecialchars($d['detail_text']) ?></li>
+                                            <?php endwhile; ?>
+                                        </ul>
+                                    <?php endif;
+                                    $detail_stmt->close();
+                                    ?>
+
+
+                                    <?php
+                                    $food_type = "select * from food_types ft 
+                        join package_food_types pf on ft.type_id = pf.type_id 
+                        where pf.package_id = ?";
+                                    $ft_stmt = $conn->prepare($food_type);
+                                    $ft_stmt->bind_param("i", $package['package_id']);
+                                    $ft_stmt->execute();
+                                    $type_details = $ft_stmt->get_result();
+
+                                    ?>
+                                    <ul class="package-details">
+                                        <?php while ($row = $type_details->fetch_assoc()): ?>
+                                            <li><?= htmlspecialchars($row['type_name']) ?></li>
+                                        <?php endwhile; ?>
+                                    </ul>
+
+                                    <div class="edit">
+                                        <button class="btn" onclick="goTo('book-package', <?= $package['package_id'] ?>)">Book Package</button>
+                                    </div>
+                                </div>
+                            <?php endwhile; ?>
+
                         </div>
-                        <div class="card hall-card">
-                            <img src="venue.jpg" alt="" width="400px">
-                            <h3>Golden Package</h3>
-                            <p>Includes Sagarmatha hall and menu for 600 guests!</p>
-                        </div>
+
+
                     </div>
                 </div>
             </div>
@@ -187,6 +255,30 @@ session_start();
     </div>
 
     <script src="service.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+
+        if (params.get("payment") === "true") {
+            Swal.fire({
+                icon: "success",
+                title: "Payment successful!",
+                text: "Your booking is sent for approval."
+            });
+        } else if (params.get("payment") === "false") {
+            Swal.fire({
+                icon: "error",
+                title: "Payment failed",
+                text: "No booking was made."
+            });
+        }
+
+        // remove ?payment=... so a refresh doesn't show the alert again
+        if (params.has("payment")) {
+            history.replaceState(null, "", window.location.pathname);
+        }
+    </script>
 </body>
 
 </html>
